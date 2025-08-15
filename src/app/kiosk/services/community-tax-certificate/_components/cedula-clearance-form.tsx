@@ -19,11 +19,15 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { getLatestOcrData, parseOcrName } from "@/lib/ocr-autofill";
+import React from "react";
+
 const schema = z.object({
   surname: z.string().min(1, "Surname is required"),
   firstName: z.string().min(1, "First Name is required"),
   middleName: z.string().optional(),
   address: z.string().min(1, "Address is required"),
+
   occupation: z.string().min(1, "Occupation is required"),
   tinNumber: z.string().optional(),
   biologicalSex: z.enum(["M", "F"]),
@@ -45,20 +49,40 @@ export const CedulaClearanceForm = () => {
   const [step, setStep] = useState(0);
   const totalSteps = 3;
 
+  // Autofill from OCR if available
+  const ocrData = typeof window !== "undefined" ? getLatestOcrData() : null;
+
+  // Mapping from OCR fields to form fields (extend as OcrData grows)
+  const ocrToFormMapping: { [K in "address" | "dob"]?: { formKey: keyof FormData | string; transform?: (val: any) => any } } = {
+    address: { formKey: "address" },
+    dob: {
+      formKey: "dateOfBirth",
+      transform: (val: string) => {
+        // Try to parse as date
+        const d = new Date(val);
+        return isNaN(d.getTime()) ? new Date() : d;
+      },
+    },
+  };
+
   const form = useForm<FormData>({
     resolver: zodResolver(schema),
     reValidateMode: "onChange",
     defaultValues: {
-      surname: "",
-      firstName: "",
-      middleName: "",
-      address: "",
+      ...(ocrData?.name
+        ? parseOcrName(ocrData.name)
+        : { surname: "", firstName: "", middleName: "" }
+      ),
+      address: ocrData?.address || "",
       occupation: "",
       tinNumber: "",
       biologicalSex: "M",
       maritalStatus: "",
       placeOfBirth: "",
-      dateOfBirth: new Date(),
+      dateOfBirth: ocrData?.dob ? (() => {
+        const d = new Date(ocrData.dob);
+        return isNaN(d.getTime()) ? new Date() : d;
+      })() : new Date(),
       height: 0,
       weight: 0,
       basicCommunityTax: 0,
@@ -69,7 +93,38 @@ export const CedulaClearanceForm = () => {
     },
   });
 
-  const { handleSubmit, reset } = form;
+  const { handleSubmit, reset, setValue, getValues } = form;
+
+  // On mount, if OCR data exists, update form values for all mapped fields
+  React.useEffect(() => {
+    if (ocrData) {
+      // Autofill name fields
+      if (ocrData.name) {
+        const { surname, firstName, middleName } = parseOcrName(ocrData.name);
+        if (getValues("surname") === "") setValue("surname", surname);
+        if (getValues("firstName") === "") setValue("firstName", firstName);
+        if (getValues("middleName") === "") setValue("middleName", middleName);
+      }
+      // Autofill other mapped fields
+      (Object.entries(ocrToFormMapping) as [keyof typeof ocrToFormMapping, { formKey: keyof FormData | string; transform?: (val: any) => any }][])
+        .forEach(([ocrKey, { formKey, transform }]) => {
+          const ocrValue = ocrData[ocrKey];
+          if (
+            ocrValue !== undefined &&
+            ocrValue !== null &&
+            ocrValue !== "" &&
+            (
+              (typeof formKey === "string" && getValues(formKey as any) === "") ||
+              (typeof getValues(formKey as any) === "number" && getValues(formKey as any) === 0) ||
+              (formKey === "dateOfBirth" && getValues("dateOfBirth") instanceof Date && isNaN(getValues("dateOfBirth").getTime()))
+            )
+          ) {
+            setValue(formKey as any, transform ? transform(ocrValue) : ocrValue);
+          }
+        });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onSubmit = async (formData: FormData) => {
     if (step < totalSteps - 1) {
