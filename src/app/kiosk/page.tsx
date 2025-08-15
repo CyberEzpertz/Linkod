@@ -13,7 +13,7 @@ export default function KioskPage() {
         <HomepageButton
           icon={Signature}
           title="Digital Services"
-          onClick={() => router.push("/kiosk/confirmation")}
+          onClick={() => router.push("/kiosk/services")}
           className="h-[120px] w-[800px]"
         />
         <HomepageButton

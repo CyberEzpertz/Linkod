@@ -19,7 +19,7 @@ export default function ConfirmationPage() {
         <HomepageButton
           icon={User}
           title="Continue as Guest"
-          onClick={() => router.push("/services")}
+          onClick={() => router.push("/kiosk/services")}
           className="h-[120px] w-[800px]"
         />
       </div>
