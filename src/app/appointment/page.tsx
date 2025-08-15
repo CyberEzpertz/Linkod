@@ -1,16 +1,14 @@
 "use client";
 
+import BackNavBar from "@/components/back-nav-bar";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-const AppointmentPage = () => {
+export default function AppointmentPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center bg-white p-8">
-      <div className="w-full max-w-2xl space-y-8">
-        <h1 className="mb-8 text-center text-3xl font-bold text-black">
-          My Appointments
-        </h1>
-
+    <main className="flex min-h-screen flex-col items-center bg-white">
+      <BackNavBar title="My Appointments" />
+      <div className="w-full max-w-2xl space-y-8 p-8">
         <div className="space-y-6">
           <div className="rounded-lg border bg-white p-6 shadow-lg">
             <h2 className="mb-4 text-xl font-semibold">
@@ -33,6 +31,4 @@ const AppointmentPage = () => {
       </div>
     </main>
   );
-};
-
-export default AppointmentPage;
+}

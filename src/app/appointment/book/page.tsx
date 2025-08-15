@@ -1,7 +1,8 @@
 "use client";
 
-import { Calendar } from "@/components/ui/calendar";
+import BackNavBar from "@/components/back-nav-bar";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Select,
   SelectContent,
@@ -9,8 +10,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface TimeSlot {
   time: string;
@@ -128,12 +129,9 @@ export default function BookAppointmentPage() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-white p-8">
-      <div className="w-full max-w-md space-y-6">
-        <h1 className="mb-8 text-center text-3xl font-bold text-black">
-          Book Appointment/Meeting
-        </h1>
-
+    <main className="flex min-h-screen flex-col items-center justify-center bg-white">
+      <BackNavBar title="Book Appointment/Meeting" />
+      <div className="w-full max-w-md space-y-6 p-8">
         <div className="flex flex-col items-center rounded-lg bg-white p-6 shadow-lg">
           <Calendar
             mode="single"
