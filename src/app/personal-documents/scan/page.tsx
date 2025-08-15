@@ -80,7 +80,7 @@ export default function ScanNationalIdPage() {
         RECT_HEIGHT
       );
       const imageDataUrl = canvas.toDataURL("image/png");
-      localStorage.setItem("scannedIdImage", imageDataUrl);
+      sessionStorage.setItem("scannedIdImage", imageDataUrl);
       router.push("/personal-documents/confirm");
     }
   };

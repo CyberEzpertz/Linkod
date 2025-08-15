@@ -33,7 +33,7 @@ export default function PersonalDocumentsPage() {
   useEffect(() => {
     // Get extra documents from localStorage
     const extraDocs = JSON.parse(
-      localStorage.getItem("extraDocuments") || "[]"
+      sessionStorage.getItem("extraDocuments") || "[]"
     );
     // Merge static and extra documents
     setAllDocuments([...staticDocuments, ...extraDocs]);
