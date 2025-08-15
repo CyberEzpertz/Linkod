@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 interface HeaderProps {}
 export default function Header({}: HeaderProps) {
   return (
-    <div className="bg-primary text-primary-foreground inline-flex w-full items-center rounded-b-4xl p-4 pb-8">
+    <div className="bg-primary text-primary-foreground inline-flex w-full items-center rounded-b-3xl p-4 pb-8">
       <span>E-Lingkod</span>
       <div className="ml-auto inline-flex gap-2">
         <Button size="icon" variant="secondary">
