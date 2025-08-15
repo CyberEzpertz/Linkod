@@ -32,19 +32,21 @@ export default function ConfirmNationalIdPage() {
   const [expires, setExpires] = useState("");
 
   // Function to process image with Gemini
-  const processImageWithGemini = async (imageDataUrl: string): Promise<OCRData> => {
+  const processImageWithGemini = async (
+    imageDataUrl: string
+  ): Promise<OCRData> => {
     try {
       // Convert data URL to base64 (remove data:image/png;base64, prefix)
-      const base64Image = imageDataUrl.split(',')[1];
-      
-      const response = await fetch('/api/gemini-ocr', {
-        method: 'POST',
+      const base64Image = imageDataUrl.split(",")[1];
+
+      const response = await fetch("/api/gemini-ocr", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           image: base64Image,
-          mimeType: 'image/png'
+          mimeType: "image/png",
         }),
       });
 
@@ -53,14 +55,14 @@ export default function ConfirmNationalIdPage() {
       }
 
       const data = await response.json();
-      
+
       if (data.error) {
         throw new Error(data.error);
       }
 
       return data.ocrData;
     } catch (error) {
-      console.error('Gemini OCR error:', error);
+      console.error("Gemini OCR error:", error);
       throw error;
     }
   };
@@ -69,14 +71,14 @@ export default function ConfirmNationalIdPage() {
     const processImage = async () => {
       const img = sessionStorage.getItem("scannedIdImage");
       if (!img) return;
-      
+
       setImage(img);
       setIsProcessing(true);
       setOcrError(null);
 
       try {
         const ocrData = await processImageWithGemini(img);
-        
+
         // Update form fields with OCR results
         setName(ocrData.name || "");
         setDob(ocrData.dob || "");
@@ -84,7 +86,9 @@ export default function ConfirmNationalIdPage() {
         setAddress(ocrData.address || "");
         setExpires(ocrData.expires || "");
       } catch (error) {
-        setOcrError(error instanceof Error ? error.message : "Failed to process image");
+        setOcrError(
+          error instanceof Error ? error.message : "Failed to process image"
+        );
         console.error("OCR processing failed:", error);
       } finally {
         setIsProcessing(false);
@@ -144,22 +148,24 @@ export default function ConfirmNationalIdPage() {
               No image captured
             </div>
           )}
-          
+
           {isProcessing && (
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <div className="text-muted-foreground flex items-center gap-2 text-sm">
               <Loader2 className="h-4 w-4 animate-spin" />
               Processing image with AI...
             </div>
           )}
 
           {ocrError && (
-            <div className="text-sm text-red-500 text-center">
+            <div className="text-center text-sm text-red-500">
               OCR Error: {ocrError}
               <br />
-              <span className="text-xs">You can still manually enter the information below.</span>
+              <span className="text-xs">
+                You can still manually enter the information below.
+              </span>
             </div>
           )}
-          
+
           <div className="flex w-full flex-col gap-2">
             <div className="text-lg font-bold">
               {isProcessing ? "Processing..." : "OCR Results (Editable)"}
@@ -197,7 +203,9 @@ export default function ConfirmNationalIdPage() {
                   onChange={(e) => setLicenseNumber(e.target.value)}
                   data-testid="edit-license"
                   disabled={isProcessing}
-                  placeholder={isProcessing ? "Processing..." : "Enter license number"}
+                  placeholder={
+                    isProcessing ? "Processing..." : "Enter license number"
+                  }
                 />
               </div>
               <div className="flex flex-col gap-1">
