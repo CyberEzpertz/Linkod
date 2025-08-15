@@ -14,7 +14,7 @@ import {
   Signature,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import ApplicationHistory from "../components/application-history";
+import ApplicationHistory from "../../components/application-history";
 
 interface Props {}
 export default function HomePage({}: Props) {
