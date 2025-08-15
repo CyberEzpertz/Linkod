@@ -8,12 +8,12 @@ export default function ConfirmationPage() {
   const router = useRouter();
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-12">
+    <div className="bg-background flex min-h-screen items-center justify-center p-12">
       <div className="flex w-full max-w-[1200px] flex-col items-center justify-center gap-12">
         <HomepageButton
           icon={LogIn}
           title="Sign in with ID"
-          onClick={() => router.push("/login")}
+          onClick={() => router.push("/kiosk/confirmation/scan")}
           className="h-[120px] w-[800px]"
         />
         <HomepageButton
