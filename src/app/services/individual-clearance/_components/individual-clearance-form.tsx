@@ -19,6 +19,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { useEffect } from "react";
 
 export const IndividualClearanceForm = () => {
   const [step, setStep] = useState(0);
@@ -33,20 +34,71 @@ export const IndividualClearanceForm = () => {
     ctcNumber: z.string().min(1, "CTC Number is required"),
   });
 
+  // Helper to extract age from dob (YYYY-MM-DD)
+  function getAgeFromDob(dob: string): number {
+    if (!dob) return 0;
+    const birthDate = new Date(dob);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  }
+
+  // Try to get latest driver's license OCR data from sessionStorage
+  function getLatestOcrData() {
+    if (typeof window === "undefined") return null;
+    try {
+      const extraDocs = JSON.parse(
+        sessionStorage.getItem("extraDocuments") || "[]"
+      );
+      // Find the most recent document with ocr and type "ID Card" or name includes "Driver"
+      const doc = [...extraDocs]
+        .reverse()
+        .find(
+          (d: any) =>
+            d.type === "ID Card" &&
+            d.name &&
+            d.name.toLowerCase().includes("driver") &&
+            d.ocr &&
+            typeof d.ocr === "object"
+        );
+      return doc?.ocr || null;
+    } catch {
+      return null;
+    }
+  }
+
+  // Set up default values, possibly from OCR
+  const ocrData = typeof window !== "undefined" ? getLatestOcrData() : null;
+
   const form = useForm({
     resolver: zodResolver(schema),
     reValidateMode: "onChange",
     defaultValues: {
-      fullName: "",
-      age: 0,
+      fullName: ocrData?.name || "",
+      age: ocrData?.dob ? getAgeFromDob(ocrData.dob) : 0,
       civilStatus: "",
-      address: "",
+      address: ocrData?.address || "",
       purpose: "",
-      ctcNumber: "",
+      ctcNumber: ocrData?.licenseNumber || "",
     },
   });
 
-  const { handleSubmit, control, reset } = form;
+  const { handleSubmit, control, reset, setValue } = form;
+
+  // On mount, if OCR data exists, update form values (for client-side hydration)
+  useEffect(() => {
+    if (ocrData) {
+      setValue("fullName", ocrData.name || "");
+      setValue("age", ocrData.dob ? getAgeFromDob(ocrData.dob) : 0);
+      setValue("address", ocrData.address || "");
+      setValue("ctcNumber", ocrData.licenseNumber || "");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onSubmit = async (formData: unknown) => {
     if (step < totalSteps - 1) {

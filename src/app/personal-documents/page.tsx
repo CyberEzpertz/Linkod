@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 // src/app/personal-documents/page.tsx
-import Header from "@/components/header";
+import BackNavBar from "@/components/back-nav-bar";
 import PersonalDocumentList from "@/components/personal-documents/PersonalDocumentList";
 import { Button } from "@/components/ui/button";
 import { Camera } from "lucide-react";
@@ -41,9 +41,8 @@ export default function PersonalDocumentsPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <Header />
+      <BackNavBar title="Personal Documents" />
       <div className="flex flex-col gap-4 p-4">
-        <h2 className="text-xl font-bold">Personal Documents</h2>
         <Button
           asChild
           variant="default"
