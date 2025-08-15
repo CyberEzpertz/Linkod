@@ -14,7 +14,7 @@ const staticDocuments = [
     thumbnail: "/passport.jpg",
     issued: "2022-01-15",
     expires: "2032-01-15",
-    description: "Official government-issued passport."
+    description: "Official government-issued passport.",
   },
   {
     id: "2",
@@ -23,8 +23,8 @@ const staticDocuments = [
     thumbnail: "/birth-certificate.jpg",
     issued: "2000-08-15",
     expires: "",
-    description: "PSA-issued birth certificate."
-  }
+    description: "PSA-issued birth certificate.",
+  },
 ];
 
 export default function PersonalDocumentsPage() {
@@ -32,7 +32,9 @@ export default function PersonalDocumentsPage() {
 
   useEffect(() => {
     // Get extra documents from localStorage
-    const extraDocs = JSON.parse(localStorage.getItem("extraDocuments") || "[]");
+    const extraDocs = JSON.parse(
+      localStorage.getItem("extraDocuments") || "[]"
+    );
     // Merge static and extra documents
     setAllDocuments([...staticDocuments, ...extraDocs]);
   }, []);
@@ -41,12 +43,12 @@ export default function PersonalDocumentsPage() {
     <div className="flex flex-col gap-4">
       <Header />
       <div className="flex flex-col gap-4 p-4">
-        <h2 className="font-bold text-xl">Personal Documents</h2>
+        <h2 className="text-xl font-bold">Personal Documents</h2>
         <Button
           asChild
           variant="default"
           size="lg"
-          className="w-full flex items-center gap-2"
+          className="flex w-full items-center gap-2"
         >
           <a href="/personal-documents/scan">
             <Camera className="size-5" />

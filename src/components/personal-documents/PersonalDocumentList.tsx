@@ -24,14 +24,14 @@ export default function PersonalDocumentList({ documents }: Props) {
           <img
             src={doc.thumbnail}
             alt={doc.type}
-            className="w-16 h-16 rounded object-cover border"
+            className="h-16 w-16 rounded border object-cover"
           />
-          <div className="flex flex-col flex-1 gap-1">
+          <div className="flex flex-1 flex-col gap-1">
             <div className="flex items-center gap-2">
-              <span className="font-bold text-lg">{doc.name}</span>
+              <span className="text-lg font-bold">{doc.name}</span>
               <Badge>{doc.type}</Badge>
             </div>
-            <div className="text-xs text-muted-foreground">
+            <div className="text-muted-foreground text-xs">
               Issued: {doc.issued}
               {doc.expires && <> &nbsp;|&nbsp; Expires: {doc.expires}</>}
             </div>

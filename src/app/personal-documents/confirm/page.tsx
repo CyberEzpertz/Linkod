@@ -16,7 +16,9 @@ export default function ConfirmNationalIdPage() {
   const [name, setName] = useState("Jose Angelo Sevilla Geronimo");
   const [dob, setDob] = useState("2004-04-19");
   const [licenseNumber, setLicenseNumber] = useState("NO1-25-011607");
-  const [address, setAddress] = useState("266, Samonte, Holy Spirit, Quezon City NCR. Second District, 1127");
+  const [address, setAddress] = useState(
+    "266, Samonte, Holy Spirit, Quezon City NCR. Second District, 1127"
+  );
   const [expires, setExpires] = useState("2029-04-19");
 
   // Document data using editable fields
@@ -34,7 +36,7 @@ export default function ConfirmNationalIdPage() {
       licenseNumber,
       address,
       expires,
-    }
+    },
   };
 
   useEffect(() => {
@@ -45,7 +47,9 @@ export default function ConfirmNationalIdPage() {
 
   const handleConfirm = () => {
     // Get existing extra documents from localStorage
-    const extraDocs = JSON.parse(localStorage.getItem("extraDocuments") || "[]");
+    const extraDocs = JSON.parse(
+      localStorage.getItem("extraDocuments") || "[]"
+    );
     // Add the new document
     extraDocs.push({ ...newDocument, thumbnail: image });
     // Save back to localStorage
@@ -55,23 +59,23 @@ export default function ConfirmNationalIdPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background min-h-screen">
       <Header />
-      <div className="flex flex-col items-center justify-center w-full p-4">
-        <Card className="w-full max-w-md mx-auto p-6 flex flex-col items-center gap-6 mt-6">
+      <div className="flex w-full flex-col items-center justify-center p-4">
+        <Card className="mx-auto mt-6 flex w-full max-w-md flex-col items-center gap-6 p-6">
           {image ? (
             <img
               src={image}
               alt="Scanned Driver's License"
-              className="w-64 h-40 object-cover rounded border"
+              className="h-40 w-64 rounded border object-cover"
             />
           ) : (
-            <div className="w-64 h-40 flex items-center justify-center bg-muted rounded border text-muted-foreground">
+            <div className="bg-muted text-muted-foreground flex h-40 w-64 items-center justify-center rounded border">
               No image captured
             </div>
           )}
-          <div className="w-full flex flex-col gap-2">
-            <div className="font-bold text-lg">OCR Results (Editable)</div>
+          <div className="flex w-full flex-col gap-2">
+            <div className="text-lg font-bold">OCR Results (Editable)</div>
             <div className="flex flex-col gap-2 text-sm">
               <div className="flex flex-col gap-1">
                 <Label htmlFor="edit-name">Name:</Label>
@@ -79,7 +83,7 @@ export default function ConfirmNationalIdPage() {
                   id="edit-name"
                   type="text"
                   value={name}
-                  onChange={e => setName(e.target.value)}
+                  onChange={(e) => setName(e.target.value)}
                   data-testid="edit-name"
                 />
               </div>
@@ -89,7 +93,7 @@ export default function ConfirmNationalIdPage() {
                   id="edit-dob"
                   type="date"
                   value={dob}
-                  onChange={e => setDob(e.target.value)}
+                  onChange={(e) => setDob(e.target.value)}
                   data-testid="edit-dob"
                 />
               </div>
@@ -99,7 +103,7 @@ export default function ConfirmNationalIdPage() {
                   id="edit-license"
                   type="text"
                   value={licenseNumber}
-                  onChange={e => setLicenseNumber(e.target.value)}
+                  onChange={(e) => setLicenseNumber(e.target.value)}
                   data-testid="edit-license"
                 />
               </div>
@@ -109,7 +113,7 @@ export default function ConfirmNationalIdPage() {
                   id="edit-address"
                   type="text"
                   value={address}
-                  onChange={e => setAddress(e.target.value)}
+                  onChange={(e) => setAddress(e.target.value)}
                   data-testid="edit-address"
                 />
               </div>
@@ -119,7 +123,7 @@ export default function ConfirmNationalIdPage() {
                   id="edit-expires"
                   type="date"
                   value={expires}
-                  onChange={e => setExpires(e.target.value)}
+                  onChange={(e) => setExpires(e.target.value)}
                   data-testid="edit-expires"
                 />
               </div>
@@ -128,7 +132,7 @@ export default function ConfirmNationalIdPage() {
           <Button
             variant="default"
             size="lg"
-            className="w-full mt-4"
+            className="mt-4 w-full"
             onClick={handleConfirm}
             data-testid="confirm-btn"
           >
