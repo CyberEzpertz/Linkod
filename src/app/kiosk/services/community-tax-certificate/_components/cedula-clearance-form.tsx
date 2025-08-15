@@ -19,31 +19,33 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+const schema = z.object({
+  surname: z.string().min(1, "Surname is required"),
+  firstName: z.string().min(1, "First Name is required"),
+  middleName: z.string().optional(),
+  address: z.string().min(1, "Address is required"),
+  occupation: z.string().min(1, "Occupation is required"),
+  tinNumber: z.string().optional(),
+  biologicalSex: z.enum(["M", "F"]),
+  maritalStatus: z.string().min(1, "Marital Status is required"),
+  placeOfBirth: z.string().min(1, "Place of Birth is required"),
+  dateOfBirth: z.date().max(new Date(), "Date of Birth cannot be in the future"),
+  height: z.number().min(0, "Height must be positive"),
+  weight: z.number().min(0, "Weight must be positive"),
+  basicCommunityTax: z.number().min(0, "Basic Community Tax must be positive"),
+  additionalCommunityTax: z.number().min(0, "Additional Community Tax must be positive"),
+  grossReceiptFromBusiness: z.number().min(0, "Gross Receipt must be positive"),
+  salariesOfOccupationIncome: z.number().min(0, "Salaries must be positive"),
+  rentalFromRealProperty: z.number().min(0, "Rental must be positive"),
+});
+
+type FormData = z.infer<typeof schema>;
+
 export const CedulaClearanceForm = () => {
   const [step, setStep] = useState(0);
   const totalSteps = 3;
 
-  const schema = z.object({
-    surname: z.string().min(1, "Surname is required"),
-    firstName: z.string().min(1, "First Name is required"),
-    middleName: z.string().optional(),
-    address: z.string().min(1, "Address is required"),
-    occupation: z.string().min(1, "Occupation is required"),
-    tinNumber: z.string().optional(),
-    biologicalSex: z.enum(["M", "F"]),
-    maritalStatus: z.string().min(1, "Marital Status is required"),
-    placeOfBirth: z.string().min(1, "Place of Birth is required"),
-    dateOfBirth: z.date().max(new Date(), "Date of Birth cannot be in the future"),
-    height: z.number().min(0, "Height must be positive"),
-    weight: z.number().min(0, "Weight must be positive"),
-    basicCommunityTax: z.number().min(0, "Basic Community Tax must be positive"),
-    additionalCommunityTax: z.number().min(0, "Additional Community Tax must be positive"),
-    grossReceiptFromBusiness: z.number().min(0, "Gross Receipt must be positive"),
-    salariesOfOccupationIncome: z.number().min(0, "Salaries must be positive"),
-    rentalFromRealProperty: z.number().min(0, "Rental must be positive"),
-  });
-
-  const form = useForm({
+  const form = useForm<FormData>({
     resolver: zodResolver(schema),
     reValidateMode: "onChange",
     defaultValues: {
@@ -69,7 +71,7 @@ export const CedulaClearanceForm = () => {
 
   const { handleSubmit, reset } = form;
 
-  const onSubmit = async (formData: unknown) => {
+  const onSubmit = async (formData: FormData) => {
     if (step < totalSteps - 1) {
       setStep(step + 1);
     } else {
@@ -80,14 +82,18 @@ export const CedulaClearanceForm = () => {
     }
   };
 
+  // Common button styles for touch-friendly interaction
+  const buttonClasses = "text-2xl px-12 py-6 rounded-xl shadow-md active:scale-95 transition-transform";
+
   return (
-    <div className="space-y-6 p-4">
-      <div className="flex items-center justify-center">
+    <div className="space-y-8">
+      {/* Progress Indicator */}
+      <div className="flex items-center justify-center px-4">
         {Array.from({ length: totalSteps }).map((_, index) => (
           <div key={index} className="flex items-center">
             <div
               className={cn(
-                "h-6 w-6 rounded-full transition-all duration-300 ease-in-out",
+                "h-10 w-10 rounded-full transition-all duration-300 ease-in-out",
                 index <= step ? "bg-primary" : "bg-primary/30",
                 index < step && "bg-primary"
               )}
@@ -95,7 +101,7 @@ export const CedulaClearanceForm = () => {
             {index < totalSteps - 1 && (
               <div
                 className={cn(
-                  "h-1 w-16",
+                  "h-2 w-32",
                   index < step ? "bg-primary" : "bg-primary/30"
                 )}
               />
@@ -103,31 +109,35 @@ export const CedulaClearanceForm = () => {
           </div>
         ))}
       </div>
-      <Card className="shadow-sm max-w-6xl mx-auto">
-        <CardHeader>
-          <CardTitle className="text-2xl">Cedula Clearance Form</CardTitle>
-          <CardDescription className="text-lg">
+
+      <Card className="shadow-lg">
+        <CardHeader className="space-y-2 p-8">
+          <CardTitle className="text-4xl font-bold">Cedula Clearance Form</CardTitle>
+          <CardDescription className="text-2xl">
             Step {step + 1} of {totalSteps}
           </CardDescription>
         </CardHeader>
-        <CardContent>
+
+        <CardContent className="p-8">
           <Form {...form}>
             {step === 0 && (
               <form
-                onSubmit={handleSubmit(onSubmit, console.error)}
-                className="grid grid-cols-2 gap-6"
+                onSubmit={handleSubmit(onSubmit)}
+                className="grid grid-cols-2 gap-x-8 gap-y-8"
               >
                 <FormTextField
                   form={form}
                   formKey="surname"
                   label="Surname"
                   placeholder="Enter surname"
+                  className="text-xl h-16"
                 />
                 <FormTextField
                   form={form}
                   formKey="firstName"
                   label="First Name"
                   placeholder="Enter first name"
+                  className="text-xl h-16"
                 />
                 <FormTextField
                   form={form}
@@ -135,25 +145,29 @@ export const CedulaClearanceForm = () => {
                   label="Middle Name"
                   placeholder="Enter middle name (optional)"
                   optional
+                  className="text-xl h-16"
                 />
                 <FormTextField
                   form={form}
                   formKey="address"
                   label="Address"
                   placeholder="Enter address"
+                  className="text-xl h-16"
                 />
                 <FormTextField
                   form={form}
                   formKey="occupation"
                   label="Occupation"
                   placeholder="Enter occupation"
+                  className="text-xl h-16"
                 />
-                <div className="col-span-2 flex justify-end gap-4">
+                <div className="col-span-2 flex justify-end gap-6 mt-8">
                   <Button
                     type="button"
                     size="lg"
                     onClick={() => setStep(step - 1)}
                     disabled={step === 0}
+                    className={buttonClasses}
                   >
                     Back
                   </Button>
@@ -161,16 +175,18 @@ export const CedulaClearanceForm = () => {
                     type="button"
                     size="lg"
                     onClick={() => setStep(step + 1)}
+                    className={buttonClasses}
                   >
                     Next
                   </Button>
                 </div>
               </form>
             )}
+
             {step === 1 && (
               <form
-                onSubmit={handleSubmit(onSubmit, console.error)}
-                className="grid grid-cols-2 gap-6"
+                onSubmit={handleSubmit(onSubmit)}
+                className="grid grid-cols-2 gap-x-8 gap-y-8"
               >
                 <FormTextField
                   form={form}
@@ -178,6 +194,7 @@ export const CedulaClearanceForm = () => {
                   label="TIN #"
                   placeholder="Enter TIN # (optional)"
                   optional
+                  className="text-xl h-16"
                 />
                 <FormSelectField
                   form={form}
@@ -188,29 +205,34 @@ export const CedulaClearanceForm = () => {
                     { value: "F", label: "Female" },
                   ]}
                   placeholder="Select biological sex"
+                  className="text-xl h-16"
                 />
                 <FormTextField
                   form={form}
                   formKey="maritalStatus"
                   label="Marital Status"
                   placeholder="Enter marital status"
+                  className="text-xl h-16"
                 />
                 <FormTextField
                   form={form}
                   formKey="placeOfBirth"
                   label="Place of Birth"
                   placeholder="Enter place of birth"
+                  className="text-xl h-16"
                 />
                 <FormDateField
                   form={form}
                   formKey="dateOfBirth"
                   label="Date of Birth"
+                  className="text-xl h-16"
                 />
-                <div className="col-span-2 flex justify-end gap-4">
+                <div className="col-span-2 flex justify-end gap-6 mt-8">
                   <Button
                     type="button"
                     size="lg"
                     onClick={() => setStep(step - 1)}
+                    className={buttonClasses}
                   >
                     Back
                   </Button>
@@ -218,16 +240,18 @@ export const CedulaClearanceForm = () => {
                     type="button"
                     size="lg"
                     onClick={() => setStep(step + 1)}
+                    className={buttonClasses}
                   >
                     Next
                   </Button>
                 </div>
               </form>
             )}
+
             {step === 2 && (
               <form
-                onSubmit={handleSubmit(onSubmit, console.error)}
-                className="grid grid-cols-2 gap-6"
+                onSubmit={handleSubmit(onSubmit)}
+                className="grid grid-cols-2 gap-x-8 gap-y-8"
               >
                 <FormTextField
                   form={form}
@@ -235,6 +259,7 @@ export const CedulaClearanceForm = () => {
                   label="Height (cm)"
                   inputType="number"
                   placeholder="Enter height in cm"
+                  className="text-xl h-16"
                 />
                 <FormTextField
                   form={form}
@@ -242,6 +267,7 @@ export const CedulaClearanceForm = () => {
                   label="Weight (kg)"
                   inputType="number"
                   placeholder="Enter weight in kg"
+                  className="text-xl h-16"
                 />
                 <FormTextField
                   form={form}
@@ -249,6 +275,7 @@ export const CedulaClearanceForm = () => {
                   label="Basic Community Tax"
                   inputType="number"
                   placeholder="Enter basic community tax"
+                  className="text-xl h-16"
                 />
                 <FormTextField
                   form={form}
@@ -256,6 +283,7 @@ export const CedulaClearanceForm = () => {
                   label="Additional Community Tax"
                   inputType="number"
                   placeholder="Enter additional community tax"
+                  className="text-xl h-16"
                 />
                 <FormTextField
                   form={form}
@@ -263,6 +291,7 @@ export const CedulaClearanceForm = () => {
                   label="Gross Receipt from Business"
                   inputType="number"
                   placeholder="Enter gross receipt from business"
+                  className="text-xl h-16"
                 />
                 <FormTextField
                   form={form}
@@ -270,6 +299,7 @@ export const CedulaClearanceForm = () => {
                   label="Salaries of Occupation Income"
                   inputType="number"
                   placeholder="Enter salaries of occupation income"
+                  className="text-xl h-16"
                 />
                 <FormTextField
                   form={form}
@@ -277,16 +307,22 @@ export const CedulaClearanceForm = () => {
                   label="Rental from Real Property"
                   inputType="number"
                   placeholder="Enter rental from real property"
+                  className="text-xl h-16"
                 />
-                <div className="col-span-2 flex justify-end gap-4">
+                <div className="col-span-2 flex justify-end gap-6 mt-8">
                   <Button
                     type="button"
                     size="lg"
                     onClick={() => setStep(step - 1)}
+                    className={buttonClasses}
                   >
                     Back
                   </Button>
-                  <Button type="submit" size="lg">
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className={buttonClasses}
+                  >
                     Submit
                   </Button>
                 </div>

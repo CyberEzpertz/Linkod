@@ -19,18 +19,20 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+const schema = z.object({
+  fullName: z.string().min(1, "Full Name is required"),
+  age: z.number("Invalid age").min(1, "Age must be greater than 0"),
+  civilStatus: z.string().min(1, "Civil Status is required"),
+  address: z.string().min(1, "Address is required"),
+  purpose: z.string().min(1, "Purpose is required"),
+  ctcNumber: z.string().min(1, "CTC Number is required"),
+});
+
+type FormData = z.infer<typeof schema>;
+
 export const IndividualClearanceForm = () => {
   const [step, setStep] = useState(0);
   const totalSteps = 2;
-
-  const schema = z.object({
-    fullName: z.string().min(1, "Full Name is required"),
-    age: z.number("Invalid age").min(1, "Age must be greater than 0"),
-    civilStatus: z.string().min(1, "Civil Status is required"),
-    address: z.string().min(1, "Address is required"),
-    purpose: z.string().min(1, "Purpose is required"),
-    ctcNumber: z.string().min(1, "CTC Number is required"),
-  });
 
   // Helper to extract age from dob (YYYY-MM-DD)
   function getAgeFromDob(dob: string): number {
@@ -52,7 +54,6 @@ export const IndividualClearanceForm = () => {
       const extraDocs = JSON.parse(
         sessionStorage.getItem("extraDocuments") || "[]"
       );
-      // Find the most recent document with ocr and type "ID Card" or name includes "Driver"
       const doc = [...extraDocs]
         .reverse()
         .find(
@@ -72,7 +73,7 @@ export const IndividualClearanceForm = () => {
   // Set up default values, possibly from OCR
   const ocrData = typeof window !== "undefined" ? getLatestOcrData() : null;
 
-  const form = useForm({
+  const form = useForm<FormData>({
     resolver: zodResolver(schema),
     reValidateMode: "onChange",
     defaultValues: {
@@ -85,9 +86,9 @@ export const IndividualClearanceForm = () => {
     },
   });
 
-  const { handleSubmit, control, reset, setValue } = form;
+  const { handleSubmit, reset, setValue } = form;
 
-  // On mount, if OCR data exists, update form values (for client-side hydration)
+  // On mount, if OCR data exists, update form values
   useEffect(() => {
     if (ocrData) {
       setValue("fullName", ocrData.name || "");
@@ -98,7 +99,7 @@ export const IndividualClearanceForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onSubmit = async (formData: unknown) => {
+  const onSubmit = async (formData: FormData) => {
     if (step < totalSteps - 1) {
       setStep(step + 1);
     } else {
@@ -109,14 +110,18 @@ export const IndividualClearanceForm = () => {
     }
   };
 
+  // Common button styles for touch-friendly interaction
+  const buttonClasses = "text-2xl px-12 py-6 rounded-xl shadow-md active:scale-95 transition-transform";
+
   return (
-    <div className="space-y-6 p-4">
-      <div className="flex items-center justify-center">
+    <div className="space-y-8">
+      {/* Progress Indicator */}
+      <div className="flex items-center justify-center px-4">
         {Array.from({ length: totalSteps }).map((_, index) => (
           <div key={index} className="flex items-center">
             <div
               className={cn(
-                "h-6 w-6 rounded-full transition-all duration-300 ease-in-out",
+                "h-10 w-10 rounded-full transition-all duration-300 ease-in-out",
                 index <= step ? "bg-primary" : "bg-primary/30",
                 index < step && "bg-primary"
               )}
@@ -124,7 +129,7 @@ export const IndividualClearanceForm = () => {
             {index < totalSteps - 1 && (
               <div
                 className={cn(
-                  "h-1 w-16",
+                  "h-2 w-32",
                   index < step ? "bg-primary" : "bg-primary/30"
                 )}
               />
@@ -132,32 +137,38 @@ export const IndividualClearanceForm = () => {
           </div>
         ))}
       </div>
-      <Card className="shadow-sm max-w-6xl mx-auto">
-        <CardHeader>
-          <CardTitle className="text-2xl">Individual Clearance Form</CardTitle>
-          <CardDescription className="text-lg">
+
+      <Card className="shadow-lg">
+        <CardHeader className="space-y-2 p-8">
+          <CardTitle className="text-4xl font-bold">Individual Clearance Form</CardTitle>
+          <CardDescription className="text-2xl">
             Step {step + 1} of {totalSteps}
           </CardDescription>
         </CardHeader>
-        <CardContent>
+
+        <CardContent className="p-8">
           <Form {...form}>
             {step === 0 && (
               <form
-                onSubmit={handleSubmit(onSubmit, console.error)}
-                className="grid grid-cols-2 gap-6"
+                onSubmit={handleSubmit(onSubmit)}
+                className="grid grid-cols-2 gap-x-8 gap-y-8"
               >
-                <FormTextField
-                  form={form}
-                  formKey="fullName"
-                  label="Full Name"
-                  placeholder="Enter your full name"
-                />
+                <div className="col-span-2">
+                  <FormTextField
+                    form={form}
+                    formKey="fullName"
+                    label="Full Name"
+                    placeholder="Enter your full name"
+                    className="text-xl h-16"
+                  />
+                </div>
                 <FormTextField
                   form={form}
                   formKey="age"
                   label="Age"
                   inputType="number"
                   placeholder="Enter your age"
+                  className="text-xl h-16"
                 />
                 <FormComboboxField
                   form={form}
@@ -169,13 +180,15 @@ export const IndividualClearanceForm = () => {
                     { value: "widowed", label: "Widowed" },
                   ]}
                   selectMessage="Select your civil status"
+                  className="text-xl h-16"
                 />
-                <div className="col-span-2 flex justify-end gap-4">
+                <div className="col-span-2 flex justify-end gap-6 mt-8">
                   <Button
                     type="button"
                     size="lg"
                     onClick={() => setStep(step - 1)}
                     disabled={step === 0}
+                    className={buttonClasses}
                   >
                     Back
                   </Button>
@@ -183,6 +196,7 @@ export const IndividualClearanceForm = () => {
                     type="button"
                     size="lg"
                     onClick={() => setStep(step + 1)}
+                    className={buttonClasses}
                   >
                     Next
                   </Button>
@@ -192,7 +206,7 @@ export const IndividualClearanceForm = () => {
             {step === 1 && (
               <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="grid grid-cols-2 gap-6"
+                className="grid grid-cols-2 gap-x-8 gap-y-8"
               >
                 <div className="col-span-2">
                   <FormTextField
@@ -200,6 +214,7 @@ export const IndividualClearanceForm = () => {
                     formKey="address"
                     label="Address"
                     placeholder="Enter your address"
+                    className="text-xl h-16"
                   />
                 </div>
                 <div className="col-span-2">
@@ -208,6 +223,7 @@ export const IndividualClearanceForm = () => {
                     formKey="purpose"
                     label="Purpose"
                     placeholder="Enter the purpose"
+                    className="text-xl min-h-[160px] py-4"
                   />
                 </div>
                 <div className="col-span-2">
@@ -216,17 +232,23 @@ export const IndividualClearanceForm = () => {
                     formKey="ctcNumber"
                     label="Community Tax Certificate #"
                     placeholder="Enter CTC #"
+                    className="text-xl h-16"
                   />
                 </div>
-                <div className="col-span-2 flex justify-end gap-4">
+                <div className="col-span-2 flex justify-end gap-6 mt-8">
                   <Button
                     type="button"
                     size="lg"
                     onClick={() => setStep(step - 1)}
+                    className={buttonClasses}
                   >
                     Back
                   </Button>
-                  <Button type="submit" size="lg">
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className={buttonClasses}
+                  >
                     Submit
                   </Button>
                 </div>

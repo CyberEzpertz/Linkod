@@ -13,19 +13,19 @@ export default function KioskPage() {
         <HomepageButton
           icon={Signature}
           title="Digital Services"
-          onClick={() => router.push("/kiosk/services")}
+          onClick={() => router.push("/kiosk/confirmation")}
           className="h-[120px] w-[800px]"
         />
         <HomepageButton
           icon={Phone}
           title="Call an Assistant"
-          onClick={() => router.push("/assistance")}
+          onClick={() => router.push("/kiosk/assistance")}
           className="h-[120px] w-[800px]"
         />
         <HomepageButton
           icon={HelpCircle}
           title="Frequently Asked Questions"
-          onClick={() => router.push("/faq")}
+          onClick={() => router.push("/kiosk/faq")}
           className="h-[120px] w-[800px]"
         />
       </div>
