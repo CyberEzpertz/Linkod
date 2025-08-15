@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2 } from "lucide-react";
-import Header from "@/components/header";
+import BackNavBar from "@/components/back-nav-bar";
 import Image from "next/image";
 
 interface OCRData {
@@ -184,7 +184,7 @@ export default function KioskConfirmNationalIdPage() {
 
   return (
     <div className="bg-background min-h-screen">
-      <Header />
+      <BackNavBar title="Confirm ID Details" />
       <div className="flex w-full flex-col items-center justify-center p-8">
         <Card className="mx-auto mt-8 flex w-full max-w-2xl flex-col items-center gap-8 p-10">
           {croppedImage ? (
