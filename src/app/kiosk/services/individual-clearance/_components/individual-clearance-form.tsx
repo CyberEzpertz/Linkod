@@ -111,7 +111,8 @@ export const IndividualClearanceForm = () => {
   };
 
   // Common button styles for touch-friendly interaction
-  const buttonClasses = "text-2xl px-12 py-6 rounded-xl shadow-md active:scale-95 transition-transform";
+  const buttonClasses =
+    "text-2xl px-12 py-6 rounded-xl shadow-md active:scale-95 transition-transform";
 
   return (
     <div className="space-y-8">
@@ -140,7 +141,9 @@ export const IndividualClearanceForm = () => {
 
       <Card className="shadow-lg">
         <CardHeader className="space-y-2 p-8">
-          <CardTitle className="text-4xl font-bold">Individual Clearance Form</CardTitle>
+          <CardTitle className="text-4xl font-bold">
+            Individual Clearance Form
+          </CardTitle>
           <CardDescription className="text-2xl">
             Step {step + 1} of {totalSteps}
           </CardDescription>
@@ -159,7 +162,7 @@ export const IndividualClearanceForm = () => {
                     formKey="fullName"
                     label="Full Name"
                     placeholder="Enter your full name"
-                    className="text-xl h-16"
+                    className="h-16 text-xl"
                   />
                 </div>
                 <FormTextField
@@ -168,7 +171,7 @@ export const IndividualClearanceForm = () => {
                   label="Age"
                   inputType="number"
                   placeholder="Enter your age"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormComboboxField
                   form={form}
@@ -180,9 +183,9 @@ export const IndividualClearanceForm = () => {
                     { value: "widowed", label: "Widowed" },
                   ]}
                   selectMessage="Select your civil status"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
-                <div className="col-span-2 flex justify-end gap-6 mt-8">
+                <div className="col-span-2 mt-8 flex justify-end gap-6">
                   <Button
                     type="button"
                     size="lg"
@@ -214,7 +217,7 @@ export const IndividualClearanceForm = () => {
                     formKey="address"
                     label="Address"
                     placeholder="Enter your address"
-                    className="text-xl h-16"
+                    className="h-16 text-xl"
                   />
                 </div>
                 <div className="col-span-2">
@@ -223,7 +226,7 @@ export const IndividualClearanceForm = () => {
                     formKey="purpose"
                     label="Purpose"
                     placeholder="Enter the purpose"
-                    className="text-xl min-h-[160px] py-4"
+                    className="min-h-[160px] py-4 text-xl"
                   />
                 </div>
                 <div className="col-span-2">
@@ -232,10 +235,10 @@ export const IndividualClearanceForm = () => {
                     formKey="ctcNumber"
                     label="Community Tax Certificate #"
                     placeholder="Enter CTC #"
-                    className="text-xl h-16"
+                    className="h-16 text-xl"
                   />
                 </div>
-                <div className="col-span-2 flex justify-end gap-6 mt-8">
+                <div className="col-span-2 mt-8 flex justify-end gap-6">
                   <Button
                     type="button"
                     size="lg"
@@ -244,11 +247,7 @@ export const IndividualClearanceForm = () => {
                   >
                     Back
                   </Button>
-                  <Button
-                    type="submit"
-                    size="lg"
-                    className={buttonClasses}
-                  >
+                  <Button type="submit" size="lg" className={buttonClasses}>
                     Submit
                   </Button>
                 </div>

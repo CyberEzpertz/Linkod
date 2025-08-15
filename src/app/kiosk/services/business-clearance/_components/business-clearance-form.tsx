@@ -22,16 +22,51 @@ import { getLatestOcrData } from "@/lib/ocr-autofill";
 import React from "react";
 
 const naturesOfBusiness = [
-  "Advertising", "Agricultural", "Airlines", "Amusement Places", "Banks",
-  "Brokerage", "Call Center", "Canteen", "Construction", "Consultancy",
-  "Convenience Store", "Cooperative", "Distributor", "Educational Institution",
-  "Exporter", "Financing Institution", "Food Chain/Kiosk", "Foreign Exchange Dealer",
-  "Forwarding", "Foundation", "Holdings", "Hotels/Apartelles", "Importer",
-  "Insurance Broker", "Investment", "Jollijeep", "Manufacturer", "Manpower",
-  "Merchandise", "Mining", "Music Lounge/Bar", "Non-Stock Non Profit",
-  "Pawnshop", "Pre-need Company", "Real Estate Dealer", "Real Estate Developer",
-  "Real Estate Lessor", "Representative/Regional Office", "Restaurant", "Retailer",
-  "Security Agency", "Services", "Shopping Center", "Trading", "Wholesale",
+  "Advertising",
+  "Agricultural",
+  "Airlines",
+  "Amusement Places",
+  "Banks",
+  "Brokerage",
+  "Call Center",
+  "Canteen",
+  "Construction",
+  "Consultancy",
+  "Convenience Store",
+  "Cooperative",
+  "Distributor",
+  "Educational Institution",
+  "Exporter",
+  "Financing Institution",
+  "Food Chain/Kiosk",
+  "Foreign Exchange Dealer",
+  "Forwarding",
+  "Foundation",
+  "Holdings",
+  "Hotels/Apartelles",
+  "Importer",
+  "Insurance Broker",
+  "Investment",
+  "Jollijeep",
+  "Manufacturer",
+  "Manpower",
+  "Merchandise",
+  "Mining",
+  "Music Lounge/Bar",
+  "Non-Stock Non Profit",
+  "Pawnshop",
+  "Pre-need Company",
+  "Real Estate Dealer",
+  "Real Estate Developer",
+  "Real Estate Lessor",
+  "Representative/Regional Office",
+  "Restaurant",
+  "Retailer",
+  "Security Agency",
+  "Services",
+  "Shopping Center",
+  "Trading",
+  "Wholesale",
 ] as const;
 
 const schema = z.object({
@@ -54,7 +89,10 @@ const schema = z.object({
   telephoneNo: z.string().min(1, "Telephone No. is required"),
   faxNo: z.string().min(1, "Fax No. is required"),
   emailAddress: z.email("Invalid email address"),
-  capitalization: z.number().min(0, "Capitalization must be positive").optional(),
+  capitalization: z
+    .number()
+    .min(0, "Capitalization must be positive")
+    .optional(),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -69,7 +107,12 @@ export const BusinessClearanceForm = () => {
   // Mapping from OCR fields to form fields
   // Only include keys that exist on OcrData type
   // Extend this mapping if OcrData is expanded in the future
-  const ocrToFormMapping: { [K in "licenseNumber" | "name" | "address"]: { formKey: keyof FormData | string; transform?: (val: any) => any } } = {
+  const ocrToFormMapping: {
+    [K in "licenseNumber" | "name" | "address"]: {
+      formKey: keyof FormData | string;
+      transform?: (val: any) => any;
+    };
+  } = {
     licenseNumber: { formKey: "plateNumber" },
     name: { formKey: "contactPerson" },
     address: { formKey: "businessAddress.street" },
@@ -108,21 +151,24 @@ export const BusinessClearanceForm = () => {
   // (for SPA navigation, ensures fields are updated)
   React.useEffect(() => {
     if (ocrData) {
-      (Object.entries(ocrToFormMapping) as [keyof typeof ocrToFormMapping, { formKey: keyof FormData | string; transform?: (val: any) => any }][])
-        .forEach(([ocrKey, { formKey, transform }]) => {
-          const ocrValue = ocrData[ocrKey];
-          if (
-            ocrValue !== undefined &&
-            ocrValue !== null &&
-            ocrValue !== "" &&
-            (
-              (typeof formKey === "string" && getValues(formKey as any) === "") ||
-              (typeof getValues(formKey as any) === "number" && getValues(formKey as any) === 0)
-            )
-          ) {
-            setValue(formKey as any, transform ? transform(ocrValue) : ocrValue);
-          }
-        });
+      (
+        Object.entries(ocrToFormMapping) as [
+          keyof typeof ocrToFormMapping,
+          { formKey: keyof FormData | string; transform?: (val: any) => any },
+        ][]
+      ).forEach(([ocrKey, { formKey, transform }]) => {
+        const ocrValue = ocrData[ocrKey];
+        if (
+          ocrValue !== undefined &&
+          ocrValue !== null &&
+          ocrValue !== "" &&
+          ((typeof formKey === "string" && getValues(formKey as any) === "") ||
+            (typeof getValues(formKey as any) === "number" &&
+              getValues(formKey as any) === 0))
+        ) {
+          setValue(formKey as any, transform ? transform(ocrValue) : ocrValue);
+        }
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -139,7 +185,8 @@ export const BusinessClearanceForm = () => {
   };
 
   // Common button styles for touch-friendly interaction
-  const buttonClasses = "text-2xl px-12 py-6 rounded-xl shadow-md active:scale-95 transition-transform";
+  const buttonClasses =
+    "text-2xl px-12 py-6 rounded-xl shadow-md active:scale-95 transition-transform";
 
   return (
     <div className="space-y-8">
@@ -168,7 +215,9 @@ export const BusinessClearanceForm = () => {
 
       <Card className="shadow-lg">
         <CardHeader className="space-y-2 p-8">
-          <CardTitle className="text-4xl font-bold">Business Clearance Form</CardTitle>
+          <CardTitle className="text-4xl font-bold">
+            Business Clearance Form
+          </CardTitle>
           <CardDescription className="text-2xl">
             Step {step + 1} of {totalSteps}
           </CardDescription>
@@ -189,24 +238,27 @@ export const BusinessClearanceForm = () => {
                     options={[
                       { value: "New Business", label: "New Business" },
                       { value: "Renewal", label: "Renewal" },
-                      { value: "Change Business Address", label: "Change Business Address" },
+                      {
+                        value: "Change Business Address",
+                        label: "Change Business Address",
+                      },
                     ]}
                     placeholder="Select purpose"
-                    className="text-xl h-16"
+                    className="h-16 text-xl"
                   />
                 </div>
                 <FormDateField
                   form={form}
                   formKey="dateApplied"
                   label="Date Applied"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormTextField
                   form={form}
                   formKey="plateNumber"
                   label="Plate Number"
                   placeholder="Enter plate number"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <div className="col-span-2">
                   <FormTextField
@@ -214,10 +266,10 @@ export const BusinessClearanceForm = () => {
                     formKey="businessName"
                     label="Business Name"
                     placeholder="Enter business name"
-                    className="text-xl h-16"
+                    className="h-16 text-xl"
                   />
                 </div>
-                <div className="col-span-2 flex justify-end gap-6 mt-8">
+                <div className="col-span-2 mt-8 flex justify-end gap-6">
                   <Button
                     type="button"
                     size="lg"
@@ -251,7 +303,7 @@ export const BusinessClearanceForm = () => {
                     label="Trade Name"
                     placeholder="Enter trade name (optional)"
                     optional
-                    className="text-xl h-16"
+                    className="h-16 text-xl"
                   />
                 </div>
                 <FormTextField
@@ -259,44 +311,44 @@ export const BusinessClearanceForm = () => {
                   formKey="businessAddress.unitRoom"
                   label="Unit/Room"
                   placeholder="Enter unit/room"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormTextField
                   form={form}
                   formKey="businessAddress.floor"
                   label="Floor"
                   placeholder="Enter floor"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormTextField
                   form={form}
                   formKey="businessAddress.building"
                   label="Building"
                   placeholder="Enter building"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormTextField
                   form={form}
                   formKey="businessAddress.streetNo"
                   label="Street No."
                   placeholder="Enter street number"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormTextField
                   form={form}
                   formKey="businessAddress.street"
                   label="Street"
                   placeholder="Enter street"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormTextField
                   form={form}
                   formKey="businessAddress.locale"
                   label="Locale"
                   placeholder="Enter locale"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
-                <div className="col-span-2 flex justify-end gap-6 mt-8">
+                <div className="col-span-2 mt-8 flex justify-end gap-6">
                   <Button
                     type="button"
                     size="lg"
@@ -327,12 +379,12 @@ export const BusinessClearanceForm = () => {
                     form={form}
                     formKey="natureOfBusiness"
                     label="Nature of Business"
-                    options={naturesOfBusiness.map(nature => ({
+                    options={naturesOfBusiness.map((nature) => ({
                       value: nature,
                       label: nature,
                     }))}
                     placeholder="Select nature of business"
-                    className="text-xl h-16"
+                    className="h-16 text-xl"
                   />
                 </div>
                 <FormTextField
@@ -340,35 +392,35 @@ export const BusinessClearanceForm = () => {
                   formKey="businessTinNo"
                   label="Business TIN"
                   placeholder="Enter business TIN"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormTextField
                   form={form}
                   formKey="contactPerson"
                   label="Contact Person"
                   placeholder="Enter contact person"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormTextField
                   form={form}
                   formKey="telephoneNo"
                   label="Telephone No."
                   placeholder="Enter telephone number"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormTextField
                   form={form}
                   formKey="faxNo"
                   label="Fax No."
                   placeholder="Enter fax number"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormTextField
                   form={form}
                   formKey="emailAddress"
                   label="Email Address"
                   placeholder="Enter email address"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormTextField
                   form={form}
@@ -376,9 +428,9 @@ export const BusinessClearanceForm = () => {
                   label="Capitalization"
                   placeholder="Enter capitalization (optional)"
                   optional
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
-                <div className="col-span-2 flex justify-end gap-6 mt-8">
+                <div className="col-span-2 mt-8 flex justify-end gap-6">
                   <Button
                     type="button"
                     size="lg"
@@ -387,11 +439,7 @@ export const BusinessClearanceForm = () => {
                   >
                     Back
                   </Button>
-                  <Button
-                    type="submit"
-                    size="lg"
-                    className={buttonClasses}
-                  >
+                  <Button type="submit" size="lg" className={buttonClasses}>
                     Submit
                   </Button>
                 </div>

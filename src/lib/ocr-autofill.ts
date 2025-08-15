@@ -14,10 +14,15 @@ export interface OcrData {
  * Parses a name in the format "SURNAME, FIRST NAMES MIDDLE NAME"
  * Returns { surname, firstName, middleName }
  */
-export function parseOcrName(ocrName: string): { surname: string; firstName: string; middleName: string } {
+export function parseOcrName(ocrName: string): {
+  surname: string;
+  firstName: string;
+  middleName: string;
+} {
   if (!ocrName) return { surname: "", firstName: "", middleName: "" };
-  const [surnamePart, rest] = ocrName.split(",", 2).map(s => s.trim());
-  if (!rest) return { surname: surnamePart || "", firstName: "", middleName: "" };
+  const [surnamePart, rest] = ocrName.split(",", 2).map((s) => s.trim());
+  if (!rest)
+    return { surname: surnamePart || "", firstName: "", middleName: "" };
   const nameParts = rest.split(/\s+/);
   const firstName = nameParts[0] || "";
   const middleName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";

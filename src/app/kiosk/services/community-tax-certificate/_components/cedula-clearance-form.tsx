@@ -33,11 +33,15 @@ const schema = z.object({
   biologicalSex: z.enum(["M", "F"]),
   maritalStatus: z.string().min(1, "Marital Status is required"),
   placeOfBirth: z.string().min(1, "Place of Birth is required"),
-  dateOfBirth: z.date().max(new Date(), "Date of Birth cannot be in the future"),
+  dateOfBirth: z
+    .date()
+    .max(new Date(), "Date of Birth cannot be in the future"),
   height: z.number().min(0, "Height must be positive"),
   weight: z.number().min(0, "Weight must be positive"),
   basicCommunityTax: z.number().min(0, "Basic Community Tax must be positive"),
-  additionalCommunityTax: z.number().min(0, "Additional Community Tax must be positive"),
+  additionalCommunityTax: z
+    .number()
+    .min(0, "Additional Community Tax must be positive"),
   grossReceiptFromBusiness: z.number().min(0, "Gross Receipt must be positive"),
   salariesOfOccupationIncome: z.number().min(0, "Salaries must be positive"),
   rentalFromRealProperty: z.number().min(0, "Rental must be positive"),
@@ -53,7 +57,12 @@ export const CedulaClearanceForm = () => {
   const ocrData = typeof window !== "undefined" ? getLatestOcrData() : null;
 
   // Mapping from OCR fields to form fields (extend as OcrData grows)
-  const ocrToFormMapping: { [K in "address" | "dob"]?: { formKey: keyof FormData | string; transform?: (val: any) => any } } = {
+  const ocrToFormMapping: {
+    [K in "address" | "dob"]?: {
+      formKey: keyof FormData | string;
+      transform?: (val: any) => any;
+    };
+  } = {
     address: { formKey: "address" },
     dob: {
       formKey: "dateOfBirth",
@@ -71,18 +80,19 @@ export const CedulaClearanceForm = () => {
     defaultValues: {
       ...(ocrData?.name
         ? parseOcrName(ocrData.name)
-        : { surname: "", firstName: "", middleName: "" }
-      ),
+        : { surname: "", firstName: "", middleName: "" }),
       address: ocrData?.address || "",
       occupation: "",
       tinNumber: "",
       biologicalSex: "M",
       maritalStatus: "",
       placeOfBirth: "",
-      dateOfBirth: ocrData?.dob ? (() => {
-        const d = new Date(ocrData.dob);
-        return isNaN(d.getTime()) ? new Date() : d;
-      })() : new Date(),
+      dateOfBirth: ocrData?.dob
+        ? (() => {
+            const d = new Date(ocrData.dob);
+            return isNaN(d.getTime()) ? new Date() : d;
+          })()
+        : new Date(),
       height: 0,
       weight: 0,
       basicCommunityTax: 0,
@@ -106,22 +116,27 @@ export const CedulaClearanceForm = () => {
         if (getValues("middleName") === "") setValue("middleName", middleName);
       }
       // Autofill other mapped fields
-      (Object.entries(ocrToFormMapping) as [keyof typeof ocrToFormMapping, { formKey: keyof FormData | string; transform?: (val: any) => any }][])
-        .forEach(([ocrKey, { formKey, transform }]) => {
-          const ocrValue = ocrData[ocrKey];
-          if (
-            ocrValue !== undefined &&
-            ocrValue !== null &&
-            ocrValue !== "" &&
-            (
-              (typeof formKey === "string" && getValues(formKey as any) === "") ||
-              (typeof getValues(formKey as any) === "number" && getValues(formKey as any) === 0) ||
-              (formKey === "dateOfBirth" && getValues("dateOfBirth") instanceof Date && isNaN(getValues("dateOfBirth").getTime()))
-            )
-          ) {
-            setValue(formKey as any, transform ? transform(ocrValue) : ocrValue);
-          }
-        });
+      (
+        Object.entries(ocrToFormMapping) as [
+          keyof typeof ocrToFormMapping,
+          { formKey: keyof FormData | string; transform?: (val: any) => any },
+        ][]
+      ).forEach(([ocrKey, { formKey, transform }]) => {
+        const ocrValue = ocrData[ocrKey];
+        if (
+          ocrValue !== undefined &&
+          ocrValue !== null &&
+          ocrValue !== "" &&
+          ((typeof formKey === "string" && getValues(formKey as any) === "") ||
+            (typeof getValues(formKey as any) === "number" &&
+              getValues(formKey as any) === 0) ||
+            (formKey === "dateOfBirth" &&
+              getValues("dateOfBirth") instanceof Date &&
+              isNaN(getValues("dateOfBirth").getTime())))
+        ) {
+          setValue(formKey as any, transform ? transform(ocrValue) : ocrValue);
+        }
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -138,7 +153,8 @@ export const CedulaClearanceForm = () => {
   };
 
   // Common button styles for touch-friendly interaction
-  const buttonClasses = "text-2xl px-12 py-6 rounded-xl shadow-md active:scale-95 transition-transform";
+  const buttonClasses =
+    "text-2xl px-12 py-6 rounded-xl shadow-md active:scale-95 transition-transform";
 
   return (
     <div className="space-y-8">
@@ -167,7 +183,9 @@ export const CedulaClearanceForm = () => {
 
       <Card className="shadow-lg">
         <CardHeader className="space-y-2 p-8">
-          <CardTitle className="text-4xl font-bold">Cedula Clearance Form</CardTitle>
+          <CardTitle className="text-4xl font-bold">
+            Cedula Clearance Form
+          </CardTitle>
           <CardDescription className="text-2xl">
             Step {step + 1} of {totalSteps}
           </CardDescription>
@@ -185,14 +203,14 @@ export const CedulaClearanceForm = () => {
                   formKey="surname"
                   label="Surname"
                   placeholder="Enter surname"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormTextField
                   form={form}
                   formKey="firstName"
                   label="First Name"
                   placeholder="Enter first name"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormTextField
                   form={form}
@@ -200,23 +218,23 @@ export const CedulaClearanceForm = () => {
                   label="Middle Name"
                   placeholder="Enter middle name (optional)"
                   optional
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormTextField
                   form={form}
                   formKey="address"
                   label="Address"
                   placeholder="Enter address"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormTextField
                   form={form}
                   formKey="occupation"
                   label="Occupation"
                   placeholder="Enter occupation"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
-                <div className="col-span-2 flex justify-end gap-6 mt-8">
+                <div className="col-span-2 mt-8 flex justify-end gap-6">
                   <Button
                     type="button"
                     size="lg"
@@ -249,7 +267,7 @@ export const CedulaClearanceForm = () => {
                   label="TIN #"
                   placeholder="Enter TIN # (optional)"
                   optional
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormSelectField
                   form={form}
@@ -260,29 +278,29 @@ export const CedulaClearanceForm = () => {
                     { value: "F", label: "Female" },
                   ]}
                   placeholder="Select biological sex"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormTextField
                   form={form}
                   formKey="maritalStatus"
                   label="Marital Status"
                   placeholder="Enter marital status"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormTextField
                   form={form}
                   formKey="placeOfBirth"
                   label="Place of Birth"
                   placeholder="Enter place of birth"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormDateField
                   form={form}
                   formKey="dateOfBirth"
                   label="Date of Birth"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
-                <div className="col-span-2 flex justify-end gap-6 mt-8">
+                <div className="col-span-2 mt-8 flex justify-end gap-6">
                   <Button
                     type="button"
                     size="lg"
@@ -314,7 +332,7 @@ export const CedulaClearanceForm = () => {
                   label="Height (cm)"
                   inputType="number"
                   placeholder="Enter height in cm"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormTextField
                   form={form}
@@ -322,7 +340,7 @@ export const CedulaClearanceForm = () => {
                   label="Weight (kg)"
                   inputType="number"
                   placeholder="Enter weight in kg"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormTextField
                   form={form}
@@ -330,7 +348,7 @@ export const CedulaClearanceForm = () => {
                   label="Basic Community Tax"
                   inputType="number"
                   placeholder="Enter basic community tax"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormTextField
                   form={form}
@@ -338,7 +356,7 @@ export const CedulaClearanceForm = () => {
                   label="Additional Community Tax"
                   inputType="number"
                   placeholder="Enter additional community tax"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormTextField
                   form={form}
@@ -346,7 +364,7 @@ export const CedulaClearanceForm = () => {
                   label="Gross Receipt from Business"
                   inputType="number"
                   placeholder="Enter gross receipt from business"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormTextField
                   form={form}
@@ -354,7 +372,7 @@ export const CedulaClearanceForm = () => {
                   label="Salaries of Occupation Income"
                   inputType="number"
                   placeholder="Enter salaries of occupation income"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
                 <FormTextField
                   form={form}
@@ -362,9 +380,9 @@ export const CedulaClearanceForm = () => {
                   label="Rental from Real Property"
                   inputType="number"
                   placeholder="Enter rental from real property"
-                  className="text-xl h-16"
+                  className="h-16 text-xl"
                 />
-                <div className="col-span-2 flex justify-end gap-6 mt-8">
+                <div className="col-span-2 mt-8 flex justify-end gap-6">
                   <Button
                     type="button"
                     size="lg"
@@ -373,11 +391,7 @@ export const CedulaClearanceForm = () => {
                   >
                     Back
                   </Button>
-                  <Button
-                    type="submit"
-                    size="lg"
-                    className={buttonClasses}
-                  >
+                  <Button type="submit" size="lg" className={buttonClasses}>
                     Submit
                   </Button>
                 </div>

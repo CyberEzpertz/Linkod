@@ -13,7 +13,7 @@ export default function ServiceButton({ title, href }: ServiceButtonProps) {
 
   return (
     <div
-      className="bg-primary text-primary-foreground flex h-32 flex-row items-center justify-between gap-4 rounded-xl p-6 font-semibold text-xl w-full"
+      className="bg-primary text-primary-foreground flex h-32 w-full flex-row items-center justify-between gap-4 rounded-xl p-6 text-xl font-semibold"
       onClick={() => router.push(href)}
     >
       {title}
