@@ -1,8 +1,9 @@
 "use client";
 
 import { Bell, Settings } from "lucide-react";
-import { Button } from "./ui/button";
 import { usePathname, useRouter } from "next/navigation";
+import LinkodLogo from "./logo";
+import { Button } from "./ui/button";
 
 interface HeaderProps {}
 export default function Header({}: HeaderProps) {
@@ -28,8 +29,8 @@ export default function Header({}: HeaderProps) {
   };
 
   return (
-    <div className="bg-primary text-primary-foreground inline-flex w-full items-center rounded-b-3xl p-4 pb-8">
-      <span>E-Lingkod</span>
+    <div className="inline-flex w-full items-center rounded-b-3xl p-4">
+      <LinkodLogo />
       <div className="ml-auto inline-flex gap-2">
         <Button
           size="icon"
