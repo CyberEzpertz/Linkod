@@ -18,8 +18,8 @@ const pageLinks: pageLink[] = [
     link: "/services/individual-clearance",
   },
   {
-    title: "Certificate of No Objection",
-    link: "/services/no-objection",
+    title: "Community Tax Cert. (Cedula)",
+    link: "/services/community-tax-certificate",
   },
   {
     title: "Certificate of Residency",
