@@ -3,9 +3,9 @@
 import Header from "@/components/header";
 import HomepageButton from "@/components/homepage-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import { CalendarClock, IdCard, ScrollText, Signature } from "lucide-react";
 import { useRouter } from "next/navigation";
+import ApplicationHistory from "../components/ApplicationHistory";
 
 interface Props {}
 export default function HomePage({}: Props) {
@@ -46,14 +46,7 @@ export default function HomePage({}: Props) {
             onClick={() => router.push("/payments")}
           />
         </div>
-        <div className="flex flex-col gap-4">
-          <div className="inline-flex items-center justify-between">
-            <h2 className="font-bold">Application History</h2>
-            <Button variant="outline" size="sm">
-              View All
-            </Button>
-          </div>
-        </div>
+        <ApplicationHistory />
       </div>
     </div>
   );
