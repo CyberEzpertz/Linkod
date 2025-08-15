@@ -13,7 +13,7 @@ export default function HomepageButton({
   return (
     <div
       onClick={onClick}
-      className="border-border bg-primary text-primary-foreground flex flex-col gap-2 rounded-xl border p-4 font-semibold cursor-pointer hover:bg-primary/90 transition-colors"
+      className="border-border bg-primary text-primary-foreground hover:bg-primary/90 flex cursor-pointer flex-col gap-2 rounded-xl border p-4 font-semibold transition-colors"
     >
       <Icon className="size-8" />
       <div className="flex flex-row items-center gap-2">
