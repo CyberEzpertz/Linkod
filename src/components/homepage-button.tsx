@@ -1,14 +1,18 @@
 import { ArrowRight, LucideIcon } from "lucide-react";
 
+import Link from "next/link";
+
 interface HomepageButtonProps {
   title: string;
   onClick?: () => void;
   icon: LucideIcon;
+  href?: string;
 }
 export default function HomepageButton({
   title,
   onClick,
   icon: Icon,
+  href,
 }: HomepageButtonProps) {
   return (
     <div

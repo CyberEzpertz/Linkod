@@ -31,7 +31,11 @@ export default function HomePage({}: Props) {
             title="Meetings & Appointments"
             onClick={() => router.push("/appointment")}
           />
-          <HomepageButton icon={IdCard} title="Personal Documents" />
+          <HomepageButton
+            icon={IdCard}
+            title="Personal Documents"
+            onClick={() => router.push("/personal-documents")}
+          />
           <HomepageButton
             icon={ScrollText}
             title="Payment History"
