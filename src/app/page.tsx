@@ -25,7 +25,11 @@ export default function HomePage({}: Props) {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <HomepageButton icon={Signature} title="Digital Services" />
+          <HomepageButton
+            icon={Signature}
+            title="Digital Services"
+            onClick={() => router.push("/services")}
+          />
           <HomepageButton
             icon={CalendarClock}
             title="Meetings & Appointments"

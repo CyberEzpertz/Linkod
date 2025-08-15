@@ -1,9 +1,10 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
+import BackNavBar from "@/components/back-nav-bar";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { Card } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface Transaction {
   id: string;
@@ -94,11 +95,9 @@ export default function PaymentsPage() {
 
   return (
     <main className="flex min-h-screen flex-col items-center bg-gray-50 p-4 sm:p-8">
+      <BackNavBar title="Payment History" />
       <div className="w-full max-w-3xl space-y-6 sm:space-y-8">
         <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
-          <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
-            Payment History
-          </h1>
           <Button
             variant="outline"
             onClick={() => router.push("/")}
