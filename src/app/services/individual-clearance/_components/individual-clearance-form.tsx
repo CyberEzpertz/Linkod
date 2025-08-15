@@ -2,7 +2,6 @@
 
 // Import missing form components
 import { FormComboboxField } from "@/components/forms/form-combobox-field";
-import FormDateField from "@/components/forms/form-date-field";
 import { FormTextArea } from "@/components/forms/form-text-area";
 import { FormTextField } from "@/components/forms/form-text-field";
 import { Button } from "@/components/ui/button";
@@ -23,7 +22,7 @@ import { z } from "zod";
 
 export const IndividualClearanceForm = () => {
   const [step, setStep] = useState(0);
-  const totalSteps = 3;
+  const totalSteps = 2;
 
   const schema = z.object({
     fullName: z.string().min(1, "Full Name is required"),
@@ -32,8 +31,6 @@ export const IndividualClearanceForm = () => {
     address: z.string().min(1, "Address is required"),
     purpose: z.string().min(1, "Purpose is required"),
     ctcNumber: z.string().min(1, "CTC Number is required"),
-    issuedAt: z.string().min(1, "Issued At is required"),
-    issuedOn: z.date(),
   });
 
   const form = useForm({
@@ -46,8 +43,6 @@ export const IndividualClearanceForm = () => {
       address: "",
       purpose: "",
       ctcNumber: "",
-      issuedAt: "",
-      issuedOn: new Date(),
     },
   });
 
@@ -132,7 +127,7 @@ export const IndividualClearanceForm = () => {
                   ]}
                   selectMessage="Select your civil status"
                 />
-                <div className="flex justify-between">
+                <div className="ml-auto inline-flex gap-2">
                   <Button
                     type="button"
                     size="sm"
@@ -142,11 +137,15 @@ export const IndividualClearanceForm = () => {
                     Back
                   </Button>
                   <Button
-                    type="button"
+                    type={step === totalSteps - 1 ? "submit" : "button"}
                     size="sm"
-                    onClick={() => setStep(step + 1)}
+                    onClick={() => {
+                      if (step < totalSteps - 1) {
+                        setStep(step + 1);
+                      }
+                    }}
                   >
-                    Next
+                    {step === totalSteps - 1 ? "Submit" : "Next"}
                   </Button>
                 </div>
               </form>
@@ -165,7 +164,13 @@ export const IndividualClearanceForm = () => {
                   label="Purpose"
                   placeholder="Enter the purpose"
                 />
-                <div className="flex justify-between">
+                <FormTextField
+                  form={form}
+                  formKey="ctcNumber"
+                  label="Community Tax Certificate #"
+                  placeholder="Enter CTC #"
+                />
+                <div className="ml-auto inline-flex gap-2">
                   <Button type="button" size="sm" onClick={handleBack}>
                     Back
                   </Button>
@@ -178,36 +183,7 @@ export const IndividualClearanceForm = () => {
                       }
                     }}
                   >
-                    Next
-                  </Button>
-                </div>
-              </form>
-            )}
-            {step === 2 && (
-              <form onSubmit={handleSubmit(onSubmit)} className="grid gap-y-4">
-                <FormTextField
-                  form={form}
-                  formKey="ctcNumber"
-                  label="Community Tax Certificate #"
-                  placeholder="Enter CTC #"
-                />
-                <FormTextField
-                  form={form}
-                  formKey="issuedAt"
-                  label="Issued At"
-                  placeholder="Enter place of issuance"
-                />
-                <FormDateField
-                  form={form}
-                  formKey="issuedOn"
-                  label="Issued On"
-                />
-                <div className="flex justify-between">
-                  <Button type="button" size="sm" onClick={handleBack}>
-                    Back
-                  </Button>
-                  <Button type="submit" size="sm">
-                    Submit
+                    {step === totalSteps - 1 ? "Submit" : "Next"}
                   </Button>
                 </div>
               </form>
