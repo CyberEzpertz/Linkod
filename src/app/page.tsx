@@ -25,23 +25,17 @@ export default function HomePage({}: Props) {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <HomepageButton
-            icon={Signature}
-            title="Digital Services"
-          />
+          <HomepageButton icon={Signature} title="Digital Services" />
           <HomepageButton
             icon={CalendarClock}
             title="Meetings & Appointments"
-            onClick={() => router.push('/appointment')}
+            onClick={() => router.push("/appointment")}
           />
-          <HomepageButton
-            icon={IdCard}
-            title="Personal Documents"
-          />
+          <HomepageButton icon={IdCard} title="Personal Documents" />
           <HomepageButton
             icon={ScrollText}
             title="Payment History"
-            onClick={() => router.push('/payments')}
+            onClick={() => router.push("/payments")}
           />
         </div>
         <div className="flex flex-col gap-4">
