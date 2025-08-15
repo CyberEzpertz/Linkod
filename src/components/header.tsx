@@ -30,7 +30,7 @@ export default function Header({}: HeaderProps) {
         >
           <Bell className="size-4" />
           {!isNotificationsPage && (
-            <div className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-red-500" />
+            <div className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-red-500" />
           )}
         </Button>
         <Button size="icon" variant="secondary">
