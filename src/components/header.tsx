@@ -42,11 +42,7 @@ export default function Header({}: HeaderProps) {
             <div className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-red-500" />
           )}
         </Button>
-        <Button 
-          size="icon" 
-          variant="secondary"
-          onClick={handleSettingsClick}
-        >
+        <Button size="icon" variant="secondary" onClick={handleSettingsClick}>
           <Settings className="size-4" />
         </Button>
       </div>

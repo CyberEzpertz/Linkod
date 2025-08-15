@@ -53,10 +53,10 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="container flex items-center justify-center min-h-[calc(100vh-1rem)] mx-auto p-4 sm:p-6 lg:p-8">
-      <Card className="w-full max-w-md mx-auto">
+    <div className="container mx-auto flex min-h-[calc(100vh-1rem)] items-center justify-center p-4 sm:p-6 lg:p-8">
+      <Card className="mx-auto w-full max-w-md">
         <CardHeader className="space-y-1 px-6 py-4">
-          <CardTitle className="text-2xl text-center">Register</CardTitle>
+          <CardTitle className="text-center text-2xl">Register</CardTitle>
         </CardHeader>
         <CardContent className="px-6 pb-6">
           <Form {...form}>
@@ -102,10 +102,10 @@ export default function RegisterPage() {
                   inputType="password"
                 />
               </div>
-              <Button type="submit" className="w-full mt-6">
+              <Button type="submit" className="mt-6 w-full">
                 Register
               </Button>
-              <div className="text-center text-sm mt-4">
+              <div className="mt-4 text-center text-sm">
                 Already have an account?{" "}
                 <Link href="/login" className="text-primary hover:underline">
                   Login here
