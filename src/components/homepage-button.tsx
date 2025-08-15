@@ -1,4 +1,5 @@
-import { ArrowRight, LucideIcon } from "lucide-react";
+import { LucideIcon } from "lucide-react";
+import { Card } from "./ui/card";
 
 interface HomepageButtonProps {
   title: string;
@@ -13,15 +14,14 @@ export default function HomepageButton({
   className,
 }: HomepageButtonProps) {
   return (
-    <div
+    <Card
       onClick={onClick}
-      className={`border-border bg-primary text-primary-foreground hover:bg-primary/90 flex h-full w-full cursor-pointer flex-row items-center gap-8 rounded-xl border p-8 font-semibold transition-colors ${className ?? ""}`}
+      className="border-border bg-card text-card-foreground hover:bg-primary/90 from-secondary/20 flex cursor-pointer flex-row items-center gap-2 rounded-xl border bg-linear-to-tr from-80% to-100% p-4 font-semibold transition-colors"
     >
-      <Icon className="size-12" />
-      <span className="text-2xl">{title}</span>
-      <div className="bg-secondary text-secondary-foreground ml-auto rounded-full p-2">
-        <ArrowRight className="size-6" />
+      <div className="bg-secondary text-secondary-foreground self-start rounded-full p-2">
+        <Icon className="size-4" />
       </div>
-    </div>
+      <span className="text-sm leading-4">{title}</span>
+    </Card>
   );
 }

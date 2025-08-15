@@ -1,8 +1,9 @@
 "use client";
 
 import { Bell, Settings } from "lucide-react";
-import { Button } from "./ui/button";
 import { usePathname, useRouter } from "next/navigation";
+import LinkodLogo from "./logo";
+import { Button } from "./ui/button";
 
 interface HeaderProps {}
 export default function Header({}: HeaderProps) {
@@ -13,7 +14,7 @@ export default function Header({}: HeaderProps) {
 
   const handleBellClick = () => {
     if (isNotificationsPage) {
-      router.back();
+      router.push("/");
     } else {
       router.push("/notifications");
     }
@@ -21,15 +22,15 @@ export default function Header({}: HeaderProps) {
 
   const handleSettingsClick = () => {
     if (isSettingsPage) {
-      router.back();
+      router.push("/");
     } else {
       router.push("/settings");
     }
   };
 
   return (
-    <div className="bg-primary text-primary-foreground inline-flex w-full items-center rounded-b-3xl p-4 pb-8">
-      <span>E-Lingkod</span>
+    <div className="inline-flex w-full items-center rounded-b-3xl p-4">
+      <LinkodLogo />
       <div className="ml-auto inline-flex gap-2">
         <Button
           size="icon"

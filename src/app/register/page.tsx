@@ -1,15 +1,16 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
-import { FormTextField } from "@/components/forms/form-text-field";
 import FormDateField from "@/components/forms/form-date-field";
+import { FormTextField } from "@/components/forms/form-text-field";
+import LinkodLogo from "@/components/logo";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Form } from "@/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 const formSchema = z
   .object({
@@ -53,68 +54,72 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="container mx-auto flex min-h-[calc(100vh-1rem)] items-center justify-center p-4 sm:p-6 lg:p-8">
-      <Card className="mx-auto w-full max-w-md">
-        <CardHeader className="space-y-1 px-6 py-4">
-          <CardTitle className="text-center text-2xl">Register</CardTitle>
-        </CardHeader>
-        <CardContent className="px-6 pb-6">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <div className="space-y-4">
-                <FormTextField
-                  form={form}
-                  formKey="lastName"
-                  label="Last Name"
-                  placeholder="Enter your last name"
-                />
-                <FormTextField
-                  form={form}
-                  formKey="firstName"
-                  label="First Name"
-                  placeholder="Enter your first name"
-                />
-                <FormTextField
-                  form={form}
-                  formKey="email"
-                  label="Email"
-                  placeholder="Enter your email"
-                  inputType="email"
-                />
-                <FormDateField
-                  form={form}
-                  formKey="birthday"
-                  label="Birthday"
-                  rangeEnd={new Date()}
-                />
-                <FormTextField
-                  form={form}
-                  formKey="password"
-                  label="Password"
-                  placeholder="Enter your password"
-                  inputType="password"
-                />
-                <FormTextField
-                  form={form}
-                  formKey="confirmPassword"
-                  label="Confirm Password"
-                  placeholder="Confirm your password"
-                  inputType="password"
-                />
-              </div>
-              <Button type="submit" className="mt-6 w-full">
-                Register
-              </Button>
-              <div className="mt-4 text-center text-sm">
-                Already have an account?{" "}
-                <Link href="/login" className="text-primary hover:underline">
-                  Login here
-                </Link>
-              </div>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
+    <div className="to-secondary/50 relative flex flex-col items-center bg-linear-to-b">
+      <div className="bg-secondary absolute -z-10 h-32 w-full rounded-b-[80%]" />
+      <LinkodLogo className="my-8 mb-4" />
+      <div className="container mx-auto flex min-h-[calc(100vh-1rem)] items-center justify-center p-4 sm:p-6 lg:p-8">
+        <Card className="mx-auto w-full max-w-md">
+          <CardHeader className="space-y-1 px-6">
+            <CardTitle className="text-center text-2xl">Sign Up</CardTitle>
+          </CardHeader>
+          <CardContent className="">
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="">
+                <div className="space-y-4">
+                  <FormTextField
+                    form={form}
+                    formKey="firstName"
+                    label="First Name"
+                    placeholder="Enter your first name"
+                  />
+                  <FormTextField
+                    form={form}
+                    formKey="lastName"
+                    label="Last Name"
+                    placeholder="Enter your last name"
+                  />
+                  <FormTextField
+                    form={form}
+                    formKey="email"
+                    label="Email"
+                    placeholder="Enter your email"
+                    inputType="email"
+                  />
+                  <FormDateField
+                    form={form}
+                    formKey="birthday"
+                    label="Birthday"
+                    rangeEnd={new Date()}
+                  />
+                  <FormTextField
+                    form={form}
+                    formKey="password"
+                    label="Password"
+                    placeholder="Enter your password"
+                    inputType="password"
+                  />
+                  <FormTextField
+                    form={form}
+                    formKey="confirmPassword"
+                    label="Confirm Password"
+                    placeholder="Confirm your password"
+                    inputType="password"
+                  />
+                </div>
+                <Button type="submit" className="mt-6 w-full">
+                  Sign Up
+                </Button>
+                <div className="mt-4 text-center text-sm">
+                  Already have an account?{" "}
+                  <Link href="/login" className="text-primary hover:underline">
+                    Login here
+                  </Link>
+                </div>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

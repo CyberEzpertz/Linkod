@@ -129,10 +129,11 @@ export default function BookAppointmentPage() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-white">
+    <main className="relative flex flex-col items-center justify-center">
+      <div className="bg-secondary/60 absolute top-0 -z-10 h-48 w-full rounded-b-[80%]" />
       <BackNavBar title="Book Appointment/Meeting" />
       <div className="w-full max-w-md space-y-6 p-8">
-        <div className="flex flex-col items-center rounded-lg bg-white p-6 shadow-lg">
+        <div className="flex flex-col items-center rounded-lg bg-white p-6 pt-0 shadow-lg">
           <Calendar
             mode="single"
             selected={date}
@@ -150,13 +151,11 @@ export default function BookAppointmentPage() {
           />
         </div>
 
-        <div className="flex w-full flex-col space-y-6">
+        <div className="flex w-full flex-col gap-4">
           <div className="space-y-2">
-            <h2 className="text-lg font-semibold text-black">
-              Purpose of the Appointment
-            </h2>
+            <h2 className="font-semibold">Purpose of the Appointment</h2>
             <Select value={purpose} onValueChange={setPurpose}>
-              <SelectTrigger className="w-full py-6 text-lg">
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select purpose" />
               </SelectTrigger>
               <SelectContent>
@@ -173,22 +172,21 @@ export default function BookAppointmentPage() {
 
           {availableSlots.length > 0 && (
             <>
-              <h2 className="text-lg font-semibold text-black">
-                Available Time Slots
-              </h2>
+              <h2 className="font-semibold text-black">Available Time Slots</h2>
               <div className="flex flex-col space-y-2">
                 {availableSlots.map((slot) => (
                   <Button
                     key={slot.time}
                     variant="outline"
-                    className={`flex h-16 items-center justify-between px-6 py-6 text-lg ${
+                    className={`flex items-center justify-between ${
                       selectedTime === slot.time
                         ? "border-black bg-gray-50"
                         : ""
                     }`}
                     onClick={() => setSelectedTime(slot.time)}
+                    size="lg"
                   >
-                    <span className="text-lg">{slot.time}</span>
+                    <span className="">{slot.time}</span>
                     <span className="text-gray-500">{slot.booked}/5</span>
                   </Button>
                 ))}
@@ -198,7 +196,7 @@ export default function BookAppointmentPage() {
 
           {unavailableSlots.length > 0 && (
             <>
-              <h2 className="mt-6 text-lg font-semibold text-black">
+              <h2 className="font-semibold text-black">
                 Unavailable Time Slots
               </h2>
               <div className="flex flex-col space-y-2">
@@ -206,10 +204,11 @@ export default function BookAppointmentPage() {
                   <Button
                     key={slot.time}
                     variant="outline"
-                    className="flex h-16 cursor-not-allowed items-center justify-between border-red-500 px-6 py-6 text-lg text-gray-500"
+                    className="flex cursor-not-allowed items-center justify-between border-red-500 text-gray-500"
+                    size="lg"
                     disabled
                   >
-                    <span className="text-lg">{slot.time}</span>
+                    <span className="">{slot.time}</span>
                     <span>{slot.booked}/5</span>
                   </Button>
                 ))}
@@ -219,19 +218,8 @@ export default function BookAppointmentPage() {
         </div>
 
         <div className="space-y-4">
-          <Button
-            className="w-full bg-black py-8 text-xl font-semibold text-white hover:bg-gray-800"
-            disabled={!selectedTime || !purpose}
-          >
+          <Button disabled={!selectedTime || !purpose} className="w-full">
             {getButtonText()}
-          </Button>
-
-          <Button
-            variant="outline"
-            className="w-full border-2 border-black py-8 text-xl font-semibold hover:bg-gray-50"
-            onClick={() => router.push("/appointment")}
-          >
-            Back
           </Button>
         </div>
       </div>
