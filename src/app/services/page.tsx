@@ -45,6 +45,7 @@ const pageLinks: pageLink[] = [
     link: "/services/residency",
     icon: HousePlus,
     description: "Obtain a certificate of residency.",
+    disabled: true,
   },
   {
     title: "PWD Card",
