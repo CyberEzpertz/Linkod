@@ -1,4 +1,8 @@
 interface ServicesPageProps {}
 export default function ServicesPage({}: ServicesPageProps) {
-  return <div>ServicesPage</div>;
+  return (
+    <div>
+      <div></div>
+    </div>
+  );
 }
