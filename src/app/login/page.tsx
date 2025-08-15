@@ -33,7 +33,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="to-secondary/50 relative bg-linear-to-b">
+    <div className="to-secondary/50 relative min-h-screen bg-linear-to-b">
       <div className="bg-secondary absolute -z-10 h-32 w-full rounded-b-[80%]" />
       <div className="container mx-auto flex min-h-[calc(100vh-1rem)] flex-col items-center justify-center p-4 sm:p-6 lg:p-8">
         <LinkodLogo className="mb-8" />
