@@ -14,6 +14,7 @@ import {
 import { Form } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -22,6 +23,7 @@ import { z } from "zod";
 export const CedulaClearanceForm = () => {
   const [step, setStep] = useState(0);
   const totalSteps = 3;
+  const router = useRouter();
 
   const schema = z.object({
     surname: z.string().min(1, "Surname is required"),
@@ -82,9 +84,8 @@ export const CedulaClearanceForm = () => {
       setStep(step + 1);
     } else {
       console.log(formData);
-      setStep(0);
-      reset();
       toast.success("Form successfully submitted");
+      router.push("/");
     }
   };
 

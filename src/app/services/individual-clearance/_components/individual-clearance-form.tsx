@@ -15,15 +15,16 @@ import {
 import { Form } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { useEffect } from "react";
 
 export const IndividualClearanceForm = () => {
   const [step, setStep] = useState(0);
   const totalSteps = 2;
+  const router = useRouter();
 
   const schema = z.object({
     fullName: z.string().min(1, "Full Name is required"),
@@ -105,10 +106,8 @@ export const IndividualClearanceForm = () => {
       setStep(step + 1);
     } else {
       console.log(formData);
-      setStep(0);
-      reset();
-
       toast.success("Form successfully submitted");
+      router.push("/");
     }
   };
 
