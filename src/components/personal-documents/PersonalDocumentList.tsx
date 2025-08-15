@@ -1,3 +1,4 @@
+import Image from "next/image";
 // src/components/personal-documents/PersonalDocumentList.tsx
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -21,10 +22,13 @@ export default function PersonalDocumentList({ documents }: Props) {
     <div className="flex flex-col gap-4">
       {documents.map((doc) => (
         <Card key={doc.id} className="flex flex-row items-center gap-4 p-4">
-          <img
+          <Image
             src={doc.thumbnail}
             alt={doc.type}
             className="h-16 w-16 rounded border object-cover"
+            width={64}
+            height={64}
+            style={{ objectFit: "cover" }}
           />
           <div className="flex flex-1 flex-col gap-1">
             <div className="flex items-center gap-2">

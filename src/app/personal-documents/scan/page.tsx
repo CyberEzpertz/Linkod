@@ -44,9 +44,10 @@ export default function ScanNationalIdPage() {
       }
     }
     enableCamera();
+    const currentVideo = videoRef.current;
     return () => {
-      if (videoRef.current && videoRef.current.srcObject) {
-        (videoRef.current.srcObject as MediaStream)
+      if (currentVideo && currentVideo.srcObject) {
+        (currentVideo.srcObject as MediaStream)
           .getTracks()
           .forEach((track) => track.stop());
       }

@@ -28,5 +28,4 @@ export default function HomepageButton({
       </div>
     </div>
   );
-
 }

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Header from "@/components/header";
+import Image from "next/image";
 
 export default function ConfirmNationalIdPage() {
   const [image, setImage] = useState<string | null>(null);
@@ -42,7 +43,6 @@ export default function ConfirmNationalIdPage() {
   useEffect(() => {
     const img = localStorage.getItem("scannedIdImage");
     setImage(img);
-    // eslint-disable-next-line
   }, []);
 
   const handleConfirm = () => {
@@ -64,10 +64,13 @@ export default function ConfirmNationalIdPage() {
       <div className="flex w-full flex-col items-center justify-center p-4">
         <Card className="mx-auto mt-6 flex w-full max-w-md flex-col items-center gap-6 p-6">
           {image ? (
-            <img
+            <Image
               src={image}
               alt="Scanned Driver's License"
               className="h-40 w-64 rounded border object-cover"
+              width={256}
+              height={160}
+              style={{ objectFit: "cover" }}
             />
           ) : (
             <div className="bg-muted text-muted-foreground flex h-40 w-64 items-center justify-center rounded border">
