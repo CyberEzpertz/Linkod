@@ -1,11 +1,15 @@
+"use client";
+
 import Header from "@/components/header";
 import HomepageButton from "@/components/homepage-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { CalendarClock, IdCard, ScrollText, Signature } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface Props {}
 export default function HomePage({}: Props) {
+  const router = useRouter();
   return (
     <div className="flex flex-col gap-4">
       <Header />
@@ -21,13 +25,24 @@ export default function HomePage({}: Props) {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <HomepageButton icon={Signature} title="Digital Services" />
+          <HomepageButton
+            icon={Signature}
+            title="Digital Services"
+          />
           <HomepageButton
             icon={CalendarClock}
             title="Meetings & Appointments"
+            onClick={() => router.push('/appointment')}
           />
-          <HomepageButton icon={IdCard} title="Personal Documents" />
-          <HomepageButton icon={ScrollText} title="Payment History" />
+          <HomepageButton
+            icon={IdCard}
+            title="Personal Documents"
+          />
+          <HomepageButton
+            icon={ScrollText}
+            title="Payment History"
+            onClick={() => router.push('/payments')}
+          />
         </div>
         <div className="flex flex-col gap-4">
           <div className="inline-flex items-center justify-between">
