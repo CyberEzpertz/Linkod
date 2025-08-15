@@ -11,7 +11,10 @@ export default function HomepageButton({
   icon: Icon,
 }: HomepageButtonProps) {
   return (
-    <div className="border-border bg-primary text-primary-foreground flex flex-col gap-2 rounded-xl border p-4 font-semibold">
+    <div
+      onClick={onClick}
+      className="border-border bg-primary text-primary-foreground flex flex-col gap-2 rounded-xl border p-4 font-semibold cursor-pointer hover:bg-primary/90 transition-colors"
+    >
       <Icon className="size-8" />
       <div className="flex flex-row items-center gap-2">
         <span className="text-sm leading-4">{title}</span>
