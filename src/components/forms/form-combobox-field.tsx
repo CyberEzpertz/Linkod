@@ -92,7 +92,7 @@ export function FormComboboxField<T extends FieldValues>({
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <LucideMessageCircleQuestion className="h-4 w-4 cursor-pointer text-muted-foreground" />
+                    <LucideMessageCircleQuestion className="text-muted-foreground h-4 w-4 cursor-pointer" />
                   </TooltipTrigger>
                   <TooltipContent>[AI] {toolTip}</TooltipContent>
                 </Tooltip>
@@ -133,7 +133,7 @@ export function FormComboboxField<T extends FieldValues>({
                     <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                   </Button>
                   {endIcon && (
-                    <div className="absolute bottom-[10px] right-2">
+                    <div className="absolute right-2 bottom-[10px]">
                       {endIcon}
                     </div>
                   )}

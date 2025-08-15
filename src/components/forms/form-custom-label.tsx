@@ -12,7 +12,7 @@ export function FormCustomLabel({
     <FormLabel className="capitalize">
       {children}{" "}
       {optional && (
-        <span className="text-[13px] font-normal text-muted-foreground">
+        <span className="text-muted-foreground text-[13px] font-normal">
           (optional)
         </span>
       )}

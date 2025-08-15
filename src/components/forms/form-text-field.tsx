@@ -84,7 +84,7 @@ export function FormTextField<T extends FieldValues>({
                 />
                 {endIcon && (
                   <div
-                    className="absolute bottom-[10px] right-2"
+                    className="absolute right-2 bottom-[10px]"
                     onClick={onEndIconClick}
                   >
                     {endIcon}

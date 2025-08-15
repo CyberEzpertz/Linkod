@@ -124,11 +124,11 @@ export function FormFileField<T extends FieldValues>({
                     {file ? (
                       <>
                         <span className="text-sm">{file.name}</span>
-                        <span className="text-xs text-muted-foreground">
+                        <span className="text-muted-foreground text-xs">
                           Click to browse
                         </span>
                         <span
-                          className="absolute right-2 top-2 cursor-pointer rounded-full border bg-background p-1 hover:bg-muted"
+                          className="bg-background hover:bg-muted absolute top-2 right-2 cursor-pointer rounded-full border p-1"
                           onClick={(e) => {
                             e.stopPropagation();
                             removeFile();
@@ -139,7 +139,7 @@ export function FormFileField<T extends FieldValues>({
                       </>
                     ) : (
                       <>
-                        <UploadCloud className="h-6 w-6 text-muted-foreground" />
+                        <UploadCloud className="text-muted-foreground h-6 w-6" />
                         <span className="text-muted-foreground">
                           Click to browse
                         </span>

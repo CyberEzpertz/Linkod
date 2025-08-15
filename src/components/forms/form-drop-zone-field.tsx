@@ -114,7 +114,7 @@ export function FormDropZoneField<T extends FieldValues>({
               className={cn(
                 "cursor-pointer rounded-lg border-2 border-dashed p-8 py-12 text-center transition-all duration-300",
                 isDragging
-                  ? "scale-105 border-primary bg-primary/10"
+                  ? "border-primary bg-primary/10 scale-105"
                   : "border-input hover:border-primary/50 hover:bg-accent",
                 className
               )}
