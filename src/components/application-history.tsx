@@ -1,10 +1,14 @@
+import { ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
+import { Card } from "./ui/card";
 
 const applications = [
   {
     id: 1,
     type: "Community Tax Certificate",
-    status: "Approved",
+    status: "Completed",
     date: "2025-08-01",
   },
   {
@@ -22,6 +26,7 @@ const applications = [
 ];
 
 const ApplicationHistory = () => {
+  const router = useRouter();
   return (
     <div className="flex flex-col gap-4">
       <div className="inline-flex items-center justify-between">
@@ -30,23 +35,38 @@ const ApplicationHistory = () => {
           View All
         </Button>
       </div>
-      <ul className="space-y-2">
+      <div className="flex flex-col gap-2">
         {applications.map((app) => (
-          <li
+          <Card
             key={app.id}
-            className="cursor-pointer rounded border p-4 hover:bg-gray-100"
-            onClick={() => alert(`Clicked on ${app.type}`)}
+            className="flex cursor-pointer flex-row items-center gap-1 rounded-xl border p-4"
+            onClick={() => router.push(`/applications/${app.id}`)}
           >
-            <div className="font-semibold">{app.type}</div>
-            <div className="text-sm text-gray-500">{app.date}</div>
-            <div
-              className={`text-sm ${app.status === "Approved" ? "text-green-500" : app.status === "Rejected" ? "text-red-500" : "text-yellow-500"}`}
-            >
-              {app.status}
+            <div className="flex flex-col gap-1">
+              <div className="font-semibold">{app.type}</div>
+              <div className="inline-flex items-center gap-2">
+                <Badge
+                  variant={
+                    app.status === "Completed"
+                      ? "default"
+                      : app.status === "Rejected"
+                        ? "destructive"
+                        : "secondary"
+                  }
+                  className="items-center"
+                >
+                  {app.status}
+                </Badge>
+                <span className="text-muted-foreground">{"•"}</span>
+                <div className="text-sm text-gray-500">{app.date}</div>
+              </div>
             </div>
-          </li>
+            <div className="text-secondary-foreground bg-secondary ml-auto rounded-full p-2">
+              <ChevronRight className="size-4" />
+            </div>
+          </Card>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
