@@ -14,7 +14,7 @@ function CameraIcon(props: React.SVGProps<SVGSVGElement>) {
       strokeWidth={2}
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="size-5 mr-2"
+      className="mr-2 size-5"
     >
       <path d="M23 19V7a2 2 0 0 0-2-2h-3.17a2 2 0 0 1-1.41-.59l-.83-.83A2 2 0 0 0 13.17 3h-2.34a2 2 0 0 0-1.42.59l-.83.83A2 2 0 0 1 7.17 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h17a2 2 0 0 0 2-2z" />
       <circle cx="12" cy="13" r="4" />
@@ -33,7 +33,9 @@ export default function ScanNationalIdPage() {
   useEffect(() => {
     async function enableCamera() {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+        });
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
         }
@@ -65,7 +67,17 @@ export default function ScanNationalIdPage() {
     canvas.height = RECT_HEIGHT;
     const ctx = canvas.getContext("2d");
     if (ctx) {
-      ctx.drawImage(video, sx, sy, RECT_WIDTH, RECT_HEIGHT, 0, 0, RECT_WIDTH, RECT_HEIGHT);
+      ctx.drawImage(
+        video,
+        sx,
+        sy,
+        RECT_WIDTH,
+        RECT_HEIGHT,
+        0,
+        0,
+        RECT_WIDTH,
+        RECT_HEIGHT
+      );
       const imageDataUrl = canvas.toDataURL("image/png");
       localStorage.setItem("scannedIdImage", imageDataUrl);
       router.push("/personal-documents/confirm");
@@ -73,16 +85,16 @@ export default function ScanNationalIdPage() {
   };
 
   return (
-    <div className="relative min-h-screen w-full bg-black overflow-hidden flex flex-col justify-end">
+    <div className="relative flex min-h-screen w-full flex-col justify-end overflow-hidden bg-black">
       <video
         ref={videoRef}
         autoPlay
         playsInline
-        className="absolute inset-0 w-full h-full object-cover z-0"
+        className="absolute inset-0 z-0 h-full w-full object-cover"
       />
-      <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+      <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
         <div
-          className="border-4 border-white border-dashed rounded-lg"
+          className="rounded-lg border-4 border-dashed border-white"
           style={{
             width: `${RECT_WIDTH}px`,
             height: `${RECT_HEIGHT}px`,
@@ -90,7 +102,7 @@ export default function ScanNationalIdPage() {
           }}
         />
       </div>
-      <div className="relative z-20 w-full flex justify-center pb-8">
+      <div className="relative z-20 flex w-full justify-center pb-8">
         <Button
           variant="default"
           size="lg"
