@@ -1,0 +1,39 @@
+"use client";
+
+import HomepageButton from "@/components/homepage-button";
+import { HelpCircle, Phone, Settings, Signature } from "lucide-react";
+import { useRouter } from "next/navigation";
+
+export default function KioskPage() {
+  const router = useRouter();
+
+  return (
+    <div className="bg-background flex min-h-screen items-center justify-center p-12">
+      <div className="flex w-full max-w-[1200px] flex-col items-center justify-center gap-12">
+        <HomepageButton
+          icon={Signature}
+          title="Digital Services"
+          onClick={() => router.push("/kiosk/confirmation")}
+          className="h-[120px] w-[800px]"
+        />
+        <HomepageButton
+          icon={Phone}
+          title="Call an Assistant"
+          className="h-[120px] w-[800px]"
+        />
+        <HomepageButton
+          icon={HelpCircle}
+          title="Frequently Asked Questions"
+          onClick={() => router.push("/kiosk/faq")}
+          className="h-[120px] w-[800px]"
+        />
+        <HomepageButton
+          icon={Settings}
+          title="Settings"
+          onClick={() => router.push("/kiosk/settings")}
+          className="h-[120px] w-[800px]"
+        />
+      </div>
+    </div>
+  );
+}
