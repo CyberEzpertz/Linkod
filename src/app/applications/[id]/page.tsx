@@ -2,8 +2,9 @@ import BackNavBar from "@/components/back-nav-bar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { CheckCircle2, ClipboardCheck, UserCheck } from "lucide-react";
+import { CheckCircle2, ClipboardCheck, Route, UserCheck } from "lucide-react";
 
 const steps = [
   {
@@ -63,7 +64,7 @@ export default async function ApplicationDetails({
     (application.stepsCompleted / application.totalSteps) * 100;
 
   return (
-    <div className="space-y-6">
+    <div className="">
       <BackNavBar title="Application Details" />
       <Card className="border-none shadow-none">
         <CardHeader>
@@ -85,12 +86,13 @@ export default async function ApplicationDetails({
         </CardHeader>
         <CardContent>
           <Progress value={progressPercentage} />
-          <div className="mt-4 text-sm">
-            <strong>Current Step:</strong> {application.stepsCompleted} /{" "}
-            {application.totalSteps}
+          <div className="mt-4 flex flex-row items-center gap-2 justify-self-center font-semibold">
+            <Route className="size-4" />
+            Step {application.stepsCompleted}/{application.totalSteps}
           </div>
+          <Separator className="my-4" />
           <div className="mt-6 space-y-4 text-sm">
-            <strong>Progress:</strong>
+            <p className="font-semibold">Progress:</p>
             {steps.map((step, index) => {
               const Icon = step.icon;
               return (
@@ -98,12 +100,22 @@ export default async function ApplicationDetails({
                   key={index}
                   className={cn(
                     "flex items-center space-x-3",
-                    index + 1 <= application.stepsCompleted
+                    index + 1 > application.stepsCompleted
                       ? "text-muted-foreground"
                       : "text-foreground"
                   )}
                 >
-                  <Icon className="h-5 w-5" />
+                  <div
+                    className={cn(
+                      "flex items-center justify-center rounded-full p-2",
+                      index + 1 <= application.stepsCompleted &&
+                        "text-secondary-foreground bg-secondary",
+                      index + 1 == application.stepsCompleted &&
+                        "text-primary-foreground bg-primary"
+                    )}
+                  >
+                    <Icon className="size-4" />
+                  </div>
                   <span>{step.label}</span>
                 </div>
               );

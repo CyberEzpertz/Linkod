@@ -14,7 +14,7 @@ export default function Header({}: HeaderProps) {
 
   const handleBellClick = () => {
     if (isNotificationsPage) {
-      router.back();
+      router.push("/");
     } else {
       router.push("/notifications");
     }
@@ -22,7 +22,7 @@ export default function Header({}: HeaderProps) {
 
   const handleSettingsClick = () => {
     if (isSettingsPage) {
-      router.back();
+      router.push("/");
     } else {
       router.push("/settings");
     }

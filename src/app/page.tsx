@@ -3,8 +3,16 @@
 import Header from "@/components/header";
 import HomepageButton from "@/components/homepage-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { CalendarClock, IdCard, ScrollText, Signature } from "lucide-react";
+import {
+  CalendarClock,
+  IdCard,
+  Landmark,
+  PencilLine,
+  ScrollText,
+  Signature,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import ApplicationHistory from "../components/application-history";
 
@@ -13,7 +21,7 @@ export default function HomePage({}: Props) {
   const router = useRouter();
   return (
     <div className="to-secondary/50 relative flex flex-col bg-linear-to-b from-80% to-100% pb-8">
-      <div className="bg-secondary/60 absolute -z-10 h-48 w-full rounded-b-[80%]" />
+      <div className="bg-secondary/30 absolute -z-10 h-48 w-full rounded-b-[80%]" />
       <Header />
       <div className="flex flex-col gap-2 p-4 py-0">
         <div className="flex flex-row items-center gap-2 p-2 pb-4">
@@ -26,6 +34,20 @@ export default function HomePage({}: Props) {
             <p className="text-sm">What do you want to do today?</p>
           </div>
         </div>
+        <Card className="border-primary/80 mb-2 flex flex-row items-center gap-2 p-4">
+          <div className="bg-secondary text-secondary-foreground rounded-full p-2">
+            <Landmark className="size-4" />
+          </div>
+          <div className="flex flex-col">
+            <div className="text-muted-foreground text-xs">
+              You are currently at...
+            </div>
+            <div className="leading-4 font-semibold">
+              Barangay Bel-Air, Makati
+            </div>
+          </div>
+          <PencilLine className="m-2 ml-auto size-4" />
+        </Card>
         <div className="grid grid-cols-2 gap-4">
           <HomepageButton
             icon={Signature}
