@@ -1,8 +1,14 @@
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
-interface LinkodLogoProps extends React.HTMLAttributes<HTMLDivElement> {}
-export default function LinkodLogo({ className, ...props }: LinkodLogoProps) {
+interface LinkodLogoProps extends React.HTMLAttributes<HTMLDivElement> {
+  isDisabled?: boolean;
+}
+export default function LinkodLogo({
+  className,
+  isDisabled,
+  ...props
+}: LinkodLogoProps) {
   const router = useRouter();
   return (
     <div
@@ -11,7 +17,9 @@ export default function LinkodLogo({ className, ...props }: LinkodLogoProps) {
         className
       )}
       {...props}
-      onClick={() => router.push("/")}
+      onClick={() => {
+        if (!isDisabled) router.push("/");
+      }}
     >
       <img src="/logo.png" alt="Linkod Logo" className="h-full" />
     </div>

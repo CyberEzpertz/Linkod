@@ -1,27 +1,21 @@
 "use client";
 
+import BackNavBar from "@/components/back-nav-bar";
 import {
   Accordion,
+  AccordionContent,
   AccordionItem,
   AccordionTrigger,
-  AccordionContent,
 } from "@/components/ui/accordion";
 import { useRouter } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
 
 export default function KioskFaqPage() {
   const router = useRouter();
 
   return (
-    <div className="bg-background flex min-h-screen items-center justify-center p-12">
-      <div className="flex w-full max-w-[800px] flex-col items-center gap-8">
-        <button
-          className="text-muted-foreground hover:text-foreground mb-2 flex items-center gap-2 self-start transition-colors"
-          onClick={() => router.back()}
-        >
-          <ArrowLeft className="size-5" />
-          Back
-        </button>
+    <div className="bg-background flex min-h-screen flex-col">
+      <BackNavBar title="" />
+      <div className="flex w-full max-w-[800px] flex-col items-center gap-8 self-center justify-self-center p-12">
         <h1 className="mb-2 text-center text-3xl font-bold">
           Frequently Asked Questions
         </h1>
