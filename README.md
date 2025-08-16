@@ -1,6 +1,6 @@
 # Linkod
 
-**Lingkod** is a Next.js application that aims to make local government services — specifically at the *Barangay* level — more accessible and convenient for everyone.  
+**Linkod** is a Next.js application that aims to make local government services — specifically at the *Barangay* level — more accessible and convenient for everyone.  
 
 The platform is two-pronged:
 - **Mobile/Web App** – For people who are tech-savvy and prefer the convenience of a smartphone or computer.  
@@ -37,7 +37,7 @@ Both versions provide the same streamlined services, ensuring accessibility and 
 ---
 
 ## 🖥️ Kiosk Software
-The **Lingkod Kiosk** is designed for:
+The **Linkod Kiosk** is designed for:
 - Citizens without smartphones or internet access  
 - Individuals resistant to technology change  
 - Senior citizens and those who prefer personal assistance  
@@ -57,7 +57,7 @@ It mirrors the mobile app’s features but is optimized for touch-based kiosks i
 ---
 
 ## 📖 Vision
-**Lingkod** envisions a future where accessing government services is:  
+**Linkod** envisions a future where accessing government services is:  
 - **Inclusive** – bridging the digital divide through kiosks.  
 - **Convenient** – faster processes, less waiting time.  
 - **Transparent** – clear application statuses and records.  
@@ -67,11 +67,11 @@ It mirrors the mobile app’s features but is optimized for touch-based kiosks i
 ## 🚀 Getting Started (Developers)
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/lingkod.git
+   git clone https://github.com/your-username/Linkod.git
    ```
 2. Navigate to the project directory:
    ```bash
-   cd lingkod
+   cd Linkod
    ```
 3. Install dependencies:
    ```bash
