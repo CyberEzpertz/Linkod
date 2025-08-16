@@ -1,14 +1,14 @@
 "use client";
 // src/app/kiosk/confirm/page.tsx
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { Card } from "@/components/ui/card";
+import BackNavBar from "@/components/back-nav-bar";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2 } from "lucide-react";
-import BackNavBar from "@/components/back-nav-bar";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface OCRData {
   name: string;
@@ -179,7 +179,7 @@ export default function KioskConfirmNationalIdPage() {
     // Save back to sessionStorage
     sessionStorage.setItem("extraDocuments", JSON.stringify(extraDocs));
     // Redirect to kiosk homepage or confirmation page
-    window.location.href = "/kiosk";
+    router.push("/kiosk/services");
   };
 
   return (

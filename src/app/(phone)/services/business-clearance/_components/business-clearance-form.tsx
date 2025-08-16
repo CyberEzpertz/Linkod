@@ -13,14 +13,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
+import { getLatestOcrData } from "@/lib/ocr-autofill";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { getLatestOcrData, parseOcrName } from "@/lib/ocr-autofill";
 
 const naturesOfBusiness = [
   "Advertising",
@@ -188,7 +188,7 @@ export const BusinessClearanceForm = () => {
     } else {
       reset();
       toast.success("Form successfully submitted");
-      router.push("/applications/book");
+      router.push("/");
     }
   };
 
@@ -226,7 +226,9 @@ export const BusinessClearanceForm = () => {
           <Form {...form}>
             {step === 0 && (
               <form
-                onSubmit={handleSubmit(onSubmit, console.error)}
+                onSubmit={handleSubmit(onSubmit, () =>
+                  toast.error("Please fill out all required fields")
+                )}
                 className="grid gap-y-4"
               >
                 <FormSelectField

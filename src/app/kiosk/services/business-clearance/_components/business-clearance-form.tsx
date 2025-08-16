@@ -12,14 +12,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
+import { getLatestOcrData } from "@/lib/ocr-autofill";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { getLatestOcrData } from "@/lib/ocr-autofill";
-import React from "react";
 
 const naturesOfBusiness = [
   "Advertising",
@@ -173,14 +173,15 @@ export const BusinessClearanceForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const router = useRouter();
+
   const onSubmit = async (formData: FormData) => {
     if (step < totalSteps - 1) {
       setStep(step + 1);
     } else {
       console.log(formData);
-      setStep(0);
-      reset();
       toast.success("Form successfully submitted");
+      router.push("/kiosk/services");
     }
   };
 
@@ -227,7 +228,9 @@ export const BusinessClearanceForm = () => {
           <Form {...form}>
             {step === 0 && (
               <form
-                onSubmit={handleSubmit(onSubmit)}
+                onSubmit={handleSubmit(onSubmit, () =>
+                  toast.error("Please fill out all required fields")
+                )}
                 className="grid grid-cols-2 gap-x-8 gap-y-8"
               >
                 <div className="col-span-2">

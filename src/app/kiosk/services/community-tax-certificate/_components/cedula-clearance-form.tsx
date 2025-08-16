@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import { getLatestOcrData, parseOcrName } from "@/lib/ocr-autofill";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const schema = z.object({
@@ -141,14 +142,15 @@ export const CedulaClearanceForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const router = useRouter();
+
   const onSubmit = async (formData: FormData) => {
     if (step < totalSteps - 1) {
       setStep(step + 1);
     } else {
       console.log(formData);
-      setStep(0);
-      reset();
       toast.success("Form successfully submitted");
+      router.push("/kiosk/services");
     }
   };
 
@@ -195,7 +197,9 @@ export const CedulaClearanceForm = () => {
           <Form {...form}>
             {step === 0 && (
               <form
-                onSubmit={handleSubmit(onSubmit)}
+                onSubmit={handleSubmit(onSubmit, () => {
+                  toast.error("Please fill out all required fields");
+                })}
                 className="grid grid-cols-2 gap-x-8 gap-y-8"
               >
                 <FormTextField
