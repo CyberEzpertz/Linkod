@@ -30,7 +30,7 @@ export default function HomePage({}: Props) {
             <AvatarFallback>JD</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <p className="font-bold">Hello, Juan!</p>
+            <p className="font-bold">Hello, Jose!</p>
             <p className="text-sm">What do you want to do today?</p>
           </div>
         </div>
