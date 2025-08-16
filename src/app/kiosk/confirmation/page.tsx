@@ -11,7 +11,7 @@ export default function ConfirmationPage() {
   return (
     <div className="bg-background flex min-h-screen flex-col p-0">
       <BackNavBar title="Login Confirmation" />
-      <div className="flex w-full flex-row items-center justify-center gap-12 p-32">
+      <div className="grid w-full grid-cols-2 items-center justify-center gap-12 p-32">
         <SquareKioskButton
           icon={LogIn}
           title="Sign in with ID"
