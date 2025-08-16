@@ -14,7 +14,7 @@ import {
 import { Form } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -32,7 +32,7 @@ type FormData = z.infer<typeof schema>;
 
 export const IndividualClearanceForm = () => {
   const [step, setStep] = useState(0);
-  const totalSteps = 2;
+  const totalSteps = 3;
 
   // Helper to extract age from dob (YYYY-MM-DD)
   function getAgeFromDob(dob: string): number {
@@ -247,8 +247,13 @@ export const IndividualClearanceForm = () => {
                   >
                     Back
                   </Button>
-                  <Button type="submit" size="lg" className={buttonClasses}>
-                    Submit
+                  <Button
+                    type="button"
+                    size="lg"
+                    onClick={() => setStep(step + 1)}
+                    className={buttonClasses}
+                  >
+                    Next
                   </Button>
                 </div>
               </form>
@@ -256,6 +261,67 @@ export const IndividualClearanceForm = () => {
           </Form>
         </CardContent>
       </Card>
+
+      {step === 2 && (
+        <Card className="shadow-lg">
+          <CardHeader className="space-y-2 p-8">
+            <CardTitle className="text-4xl font-bold">
+              Required Documents
+            </CardTitle>
+            <CardDescription className="text-2xl">
+              Please prepare the following documents:
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="p-8">
+            <div className="space-y-8">
+              <div>
+                <h3 className="mb-4 text-2xl font-semibold">
+                  For New Application:
+                </h3>
+                <ul className="list-disc space-y-4 pl-8 text-xl">
+                  <li>
+                    Certification from Building Administrator (for Salcedo
+                    Village, Malugay Area & Jazz Residences)
+                  </li>
+                  <li>Community Tax Certificate (Cedula) (current year)</li>
+                  <li>Barangay I.D / Village ID</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="mb-4 text-2xl font-semibold">
+                  For Renewal Application:
+                </h3>
+                <ul className="list-disc space-y-4 pl-8 text-xl">
+                  <li>
+                    Certification from Building Administrator (for Salcedo
+                    Village, Malugay Area & Jazz Residences)
+                  </li>
+                  <li>Community Tax Certificate (Cedula) (current year)</li>
+                  <li>Barangay I.D / Village ID</li>
+                </ul>
+              </div>
+              <div className="mt-8 flex justify-end gap-6">
+                <Button
+                  type="button"
+                  size="lg"
+                  onClick={() => setStep(step - 1)}
+                  className={buttonClasses}
+                >
+                  Back
+                </Button>
+                <Button
+                  type="submit"
+                  size="lg"
+                  onClick={handleSubmit(onSubmit)}
+                  className={buttonClasses}
+                >
+                  Submit
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };
