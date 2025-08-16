@@ -16,9 +16,12 @@ import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+
+import { getLatestOcrData, parseOcrName } from "@/lib/ocr-autofill";
 
 export const CedulaClearanceForm = () => {
   const [step, setStep] = useState(0);
@@ -77,7 +80,33 @@ export const CedulaClearanceForm = () => {
     },
   });
 
-  const { handleSubmit, reset } = form;
+  const { handleSubmit, reset, setValue } = form;
+
+  // OCR autofill effect
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const ocr = getLatestOcrData();
+      if (ocr) {
+        if (ocr.name) {
+          const { surname, firstName, middleName } = parseOcrName(ocr.name);
+          setValue("surname", surname);
+          setValue("firstName", firstName);
+          setValue("middleName", middleName);
+        }
+        if (ocr.address) {
+          setValue("address", ocr.address);
+        }
+        if (ocr.dob) {
+          // Try to parse date string to Date object
+          const date = new Date(ocr.dob);
+          if (!isNaN(date.getTime())) {
+            setValue("dateOfBirth", date);
+          }
+        }
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onSubmit = async (formData: unknown) => {
     if (step < totalSteps - 1) {
