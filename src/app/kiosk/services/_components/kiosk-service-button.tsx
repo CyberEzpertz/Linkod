@@ -44,7 +44,7 @@ export default function KioskServiceButton({
         {description && (
           <span
             className={cn(
-              "text-secondary-foreground/80 text-xs",
+              "text-secondary-foreground/80",
               disabled && "text-muted-foreground"
             )}
           >

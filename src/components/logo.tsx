@@ -21,7 +21,7 @@ export default function LinkodLogo({
         if (!isDisabled) router.push("/");
       }}
     >
-      <img src="/logo.png" alt="Linkod Logo" className="h-full" />
+      <img src="/logo.png" alt="Linkod Logo" className="h-full object-cover" />
     </div>
   );
 }
