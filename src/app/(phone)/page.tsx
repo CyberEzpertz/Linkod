@@ -20,7 +20,7 @@ interface Props {}
 export default function HomePage({}: Props) {
   const router = useRouter();
   return (
-    <div className="to-secondary/50 relative flex flex-col bg-linear-to-b from-80% to-100% pb-8">
+    <div className="to-secondary/50 relative flex min-h-screen flex-col bg-linear-to-b from-80% to-100% pb-8">
       <div className="bg-secondary/30 absolute -z-10 h-48 w-full rounded-b-[80%]" />
       <Header />
       <div className="flex flex-col gap-2 p-4 py-0">
