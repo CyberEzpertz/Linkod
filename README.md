@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Linkod
 
-## Getting Started
+**Lingkod** is a Next.js application that aims to make local government services — specifically at the *Barangay* level — more accessible and convenient for everyone.  
 
-First, run the development server:
+The platform is two-pronged:
+- **Mobile/Web App** – For people who are tech-savvy and prefer the convenience of a smartphone or computer.  
+- **Kiosk Software** – For citizens who may not own a smartphone, are less tech-savvy, or simply prefer in-person assistance at their Barangay hall.  
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Both versions provide the same streamlined services, ensuring accessibility and inclusivity for all citizens.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ✨ Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 📱 App Features
+1. **Barangay-specific Document Requests & Applications**  
+   Apply for documents directly from your Barangay without needing to line up in person.
 
-## Learn More
+2. **OCR for IDs**  
+   Automatically extracts and fills in your information from uploaded IDs, reducing manual typing.
 
-To learn more about Next.js, take a look at the following resources:
+3. **Secure Document Storage**  
+   Store frequently used personal documents safely for faster access in future applications.  
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. **Appointment Management System**  
+   Book appointments with your Barangay to avoid long queues and save time.  
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+5. **Payment History**  
+   Track past payments and fees for requested documents.  
 
-## Deploy on Vercel
+6. **Application Status Queue (History)**  
+   Monitor the progress of your applications in real-time.  
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+7. **Kiosk Version**  
+   The app also powers an easy-to-use kiosk interface available at Barangay halls for wider accessibility.  
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🖥️ Kiosk Software
+The **Lingkod Kiosk** is designed for:
+- Citizens without smartphones or internet access  
+- Individuals resistant to technology change  
+- Senior citizens and those who prefer personal assistance  
+
+It mirrors the mobile app’s features but is optimized for touch-based kiosks in Barangay offices.  
+
+---
+
+## 🏗️ Tech Stack
+- **Framework**: [Next.js](https://nextjs.org/)  
+- **Language**: TypeScript  
+- **UI**: TailwindCSS + Shadcn  
+- **Other Tools**:  
+  - OCR integration for ID scanning  
+  - Secure storage for personal data  
+
+---
+
+## 📖 Vision
+**Lingkod** envisions a future where accessing government services is:  
+- **Inclusive** – bridging the digital divide through kiosks.  
+- **Convenient** – faster processes, less waiting time.  
+- **Transparent** – clear application statuses and records.  
+
+---
+
+## 🚀 Getting Started (Developers)
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/lingkod.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd lingkod
+   ```
+3. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+4. Start the development server:
+   ```bash
+   pnpm dev
+   ```
+5. Visit [http://localhost:3000](http://localhost:3000) in your browser.  
+
+---
+
+## 📜 License
+This project is licensed under the **GPL License**.  
+
+---
+
+## ❤️ Acknowledgements
+- Inspired by the need for accessible government services in the Philippines  
+- Built with inclusivity at its core: for both the tech-savvy and those less familiar with technology  
