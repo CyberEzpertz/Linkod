@@ -84,7 +84,7 @@ type BusinessClearanceFormData = {
     street: string;
     locale: string;
   };
-  natureOfBusiness: typeof naturesOfBusiness[number];
+  natureOfBusiness: (typeof naturesOfBusiness)[number];
   businessTinNo: string;
   contactPerson: string;
   telephoneNo: string;
