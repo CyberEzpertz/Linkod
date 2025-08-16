@@ -125,8 +125,8 @@ export default function ConfirmNationalIdPage() {
     extraDocs.push({ ...newDocument, thumbnail: image });
     // Save back to sessionStorage
     sessionStorage.setItem("extraDocuments", JSON.stringify(extraDocs));
-    // Redirect to personal documents page
-    window.location.href = "/personal-documents";
+    // Redirect to homepage
+    router.push("/");
   };
 
   return (

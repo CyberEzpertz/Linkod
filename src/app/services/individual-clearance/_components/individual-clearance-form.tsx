@@ -20,6 +20,17 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { getLatestOcrData } from "@/lib/ocr-autofill";
+
+// Define form data type for type safety
+type IndividualClearanceFormData = {
+  fullName: string;
+  age: number;
+  civilStatus: string;
+  address: string;
+  purpose: string;
+  ctcNumber: string;
+};
 
 export const IndividualClearanceForm = () => {
   const [step, setStep] = useState(0);
@@ -48,34 +59,10 @@ export const IndividualClearanceForm = () => {
     return age;
   }
 
-  // Try to get latest driver's license OCR data from sessionStorage
-  function getLatestOcrData() {
-    if (typeof window === "undefined") return null;
-    try {
-      const extraDocs = JSON.parse(
-        sessionStorage.getItem("extraDocuments") || "[]"
-      );
-      // Find the most recent document with ocr and type "ID Card" or name includes "Driver"
-      const doc = [...extraDocs]
-        .reverse()
-        .find(
-          (d: any) =>
-            d.type === "ID Card" &&
-            d.name &&
-            d.name.toLowerCase().includes("driver") &&
-            d.ocr &&
-            typeof d.ocr === "object"
-        );
-      return doc?.ocr || null;
-    } catch {
-      return null;
-    }
-  }
-
   // Set up default values, possibly from OCR
   const ocrData = typeof window !== "undefined" ? getLatestOcrData() : null;
 
-  const form = useForm({
+  const form = useForm<IndividualClearanceFormData>({
     resolver: zodResolver(schema),
     reValidateMode: "onChange",
     defaultValues: {
@@ -92,11 +79,14 @@ export const IndividualClearanceForm = () => {
 
   // On mount, if OCR data exists, update form values (for client-side hydration)
   useEffect(() => {
-    if (ocrData) {
-      setValue("fullName", ocrData.name || "");
-      setValue("age", ocrData.dob ? getAgeFromDob(ocrData.dob) : 0);
-      setValue("address", ocrData.address || "");
-      setValue("ctcNumber", ocrData.licenseNumber || "");
+    if (typeof window !== "undefined") {
+      const ocr = getLatestOcrData();
+      if (ocr) {
+        setValue("fullName", ocr.name || "");
+        setValue("age", ocr.dob ? getAgeFromDob(ocr.dob) : 0);
+        setValue("address", ocr.address || "");
+        setValue("ctcNumber", ocr.licenseNumber || "");
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

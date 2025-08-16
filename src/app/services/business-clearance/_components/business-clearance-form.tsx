@@ -16,10 +16,11 @@ import { Form } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { getLatestOcrData, parseOcrName } from "@/lib/ocr-autofill";
 
 const naturesOfBusiness = [
   "Advertising",
@@ -69,6 +70,29 @@ const naturesOfBusiness = [
   "Wholesale",
 ];
 
+type BusinessClearanceFormData = {
+  purpose: "New Business" | "Renewal" | "Change Business Address";
+  dateApplied: Date;
+  plateNumber: string;
+  businessName: string;
+  tradeName?: string;
+  businessAddress: {
+    unitRoom: string;
+    floor: string;
+    building: string;
+    streetNo: string;
+    street: string;
+    locale: string;
+  };
+  natureOfBusiness: (typeof naturesOfBusiness)[number];
+  businessTinNo: string;
+  contactPerson: string;
+  telephoneNo: string;
+  faxNo: string;
+  emailAddress: string;
+  capitalization?: number;
+};
+
 export const BusinessClearanceForm = () => {
   const [step, setStep] = useState(0);
   const totalSteps = 3;
@@ -100,7 +124,7 @@ export const BusinessClearanceForm = () => {
       .optional(),
   });
 
-  const form = useForm({
+  const form = useForm<BusinessClearanceFormData>({
     resolver: zodResolver(schema),
     reValidateMode: "onChange",
     defaultValues: {
@@ -127,7 +151,36 @@ export const BusinessClearanceForm = () => {
     },
   });
 
-  const { handleSubmit, control, reset } = form;
+  const { handleSubmit, control, reset, setValue } = form;
+
+  // OCR autofill effect
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const ocr = getLatestOcrData();
+      if (ocr) {
+        // Prefill contactPerson with name from OCR
+        if (ocr.name) {
+          setValue("contactPerson", ocr.name);
+        }
+        // Prefill businessName if possible (not typical for driver's license, but just in case)
+        if (ocr.licenseNumber) {
+          setValue("businessTinNo", ocr.licenseNumber);
+        }
+        // Prefill emailAddress if present in OCR (rare)
+        if ((ocr as any).emailAddress) {
+          setValue("emailAddress", (ocr as any).emailAddress);
+        }
+        // Prefill address if present
+        if (ocr.address) {
+          setValue("businessAddress", {
+            ...form.getValues().businessAddress,
+            street: ocr.address,
+          });
+        }
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onSubmit = async (formData: unknown) => {
     if (step < totalSteps - 1) {
