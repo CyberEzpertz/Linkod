@@ -258,70 +258,74 @@ export const IndividualClearanceForm = () => {
                 </div>
               </form>
             )}
+
+            {step === 2 && (
+              <>
+                <CardHeader className="space-y-2 p-8">
+                  <CardTitle className="text-4xl font-bold">
+                    Required Documents
+                  </CardTitle>
+                  <CardDescription className="text-2xl">
+                    Please prepare the following documents:
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="p-8">
+                  <div className="space-y-8">
+                    <div>
+                      <h3 className="mb-4 text-2xl font-semibold">
+                        For New Application:
+                      </h3>
+                      <ul className="list-disc space-y-4 pl-8 text-xl">
+                        <li>
+                          Certification from Building Administrator (for Salcedo
+                          Village, Malugay Area & Jazz Residences)
+                        </li>
+                        <li>
+                          Community Tax Certificate (Cedula) (current year)
+                        </li>
+                        <li>Barangay I.D / Village ID</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h3 className="mb-4 text-2xl font-semibold">
+                        For Renewal Application:
+                      </h3>
+                      <ul className="list-disc space-y-4 pl-8 text-xl">
+                        <li>
+                          Certification from Building Administrator (for Salcedo
+                          Village, Malugay Area & Jazz Residences)
+                        </li>
+                        <li>
+                          Community Tax Certificate (Cedula) (current year)
+                        </li>
+                        <li>Barangay I.D / Village ID</li>
+                      </ul>
+                    </div>
+                    <div className="mt-8 flex justify-end gap-6">
+                      <Button
+                        type="button"
+                        size="lg"
+                        onClick={() => setStep(step - 1)}
+                        className={buttonClasses}
+                      >
+                        Back
+                      </Button>
+                      <Button
+                        type="submit"
+                        size="lg"
+                        onClick={handleSubmit(onSubmit)}
+                        className={buttonClasses}
+                      >
+                        Submit
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </>
+            )}
           </Form>
         </CardContent>
       </Card>
-
-      {step === 2 && (
-        <Card className="shadow-lg">
-          <CardHeader className="space-y-2 p-8">
-            <CardTitle className="text-4xl font-bold">
-              Required Documents
-            </CardTitle>
-            <CardDescription className="text-2xl">
-              Please prepare the following documents:
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="p-8">
-            <div className="space-y-8">
-              <div>
-                <h3 className="mb-4 text-2xl font-semibold">
-                  For New Application:
-                </h3>
-                <ul className="list-disc space-y-4 pl-8 text-xl">
-                  <li>
-                    Certification from Building Administrator (for Salcedo
-                    Village, Malugay Area & Jazz Residences)
-                  </li>
-                  <li>Community Tax Certificate (Cedula) (current year)</li>
-                  <li>Barangay I.D / Village ID</li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="mb-4 text-2xl font-semibold">
-                  For Renewal Application:
-                </h3>
-                <ul className="list-disc space-y-4 pl-8 text-xl">
-                  <li>
-                    Certification from Building Administrator (for Salcedo
-                    Village, Malugay Area & Jazz Residences)
-                  </li>
-                  <li>Community Tax Certificate (Cedula) (current year)</li>
-                  <li>Barangay I.D / Village ID</li>
-                </ul>
-              </div>
-              <div className="mt-8 flex justify-end gap-6">
-                <Button
-                  type="button"
-                  size="lg"
-                  onClick={() => setStep(step - 1)}
-                  className={buttonClasses}
-                >
-                  Back
-                </Button>
-                <Button
-                  type="submit"
-                  size="lg"
-                  onClick={handleSubmit(onSubmit)}
-                  className={buttonClasses}
-                >
-                  Submit
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
     </div>
   );
 };

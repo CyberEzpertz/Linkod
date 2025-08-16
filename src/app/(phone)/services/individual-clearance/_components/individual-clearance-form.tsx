@@ -13,6 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
+import { getLatestOcrData } from "@/lib/ocr-autofill";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -20,7 +21,6 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { getLatestOcrData } from "@/lib/ocr-autofill";
 
 // Define form data type for type safety
 type IndividualClearanceFormData = {
@@ -34,7 +34,7 @@ type IndividualClearanceFormData = {
 
 export const IndividualClearanceForm = () => {
   const [step, setStep] = useState(0);
-  const totalSteps = 2;
+  const totalSteps = 3;
   const router = useRouter();
 
   const schema = z.object({
@@ -216,15 +216,11 @@ export const IndividualClearanceForm = () => {
                     Back
                   </Button>
                   <Button
-                    type={step === totalSteps - 1 ? "submit" : "button"}
+                    type="button"
                     size="sm"
-                    onClick={() => {
-                      if (step < totalSteps - 1) {
-                        setStep(step + 1);
-                      }
-                    }}
+                    onClick={() => setStep(step + 1)}
                   >
-                    {step === totalSteps - 1 ? "Submit" : "Next"}
+                    Next
                   </Button>
                 </div>
               </form>
@@ -232,6 +228,55 @@ export const IndividualClearanceForm = () => {
           </Form>
         </CardContent>
       </Card>
+
+      {step === 2 && (
+        <Card className="shadow-sm">
+          <CardHeader>
+            <CardTitle className="text-lg">Required Documents</CardTitle>
+            <CardDescription>
+              Please prepare the following documents:
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div>
+                <h3 className="mb-2 font-semibold">For New Application:</h3>
+                <ul className="list-disc space-y-2 pl-6">
+                  <li>
+                    Certification from Building Administrator (for Salcedo
+                    Village, Malugay Area & Jazz Residences)
+                  </li>
+                  <li>Community Tax Certificate (Cedula) (current year)</li>
+                  <li>Barangay I.D / Village ID</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="mb-2 font-semibold">For Renewal Application:</h3>
+                <ul className="list-disc space-y-2 pl-6">
+                  <li>
+                    Certification from Building Administrator (for Salcedo
+                    Village, Malugay Area & Jazz Residences)
+                  </li>
+                  <li>Community Tax Certificate (Cedula) (current year)</li>
+                  <li>Barangay I.D / Village ID</li>
+                </ul>
+              </div>
+              <div className="ml-auto inline-flex gap-2">
+                <Button type="button" size="sm" onClick={handleBack}>
+                  Back
+                </Button>
+                <Button
+                  type="submit"
+                  size="sm"
+                  onClick={handleSubmit(onSubmit)}
+                >
+                  Submit
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };
