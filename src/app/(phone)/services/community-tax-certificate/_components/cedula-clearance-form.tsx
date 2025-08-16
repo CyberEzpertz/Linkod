@@ -15,8 +15,7 @@ import { Form } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -152,7 +151,9 @@ export const CedulaClearanceForm = () => {
           <Form {...form}>
             {step === 0 && (
               <form
-                onSubmit={handleSubmit(onSubmit, console.error)}
+                onSubmit={handleSubmit(onSubmit, () =>
+                  toast.error("Please fill out all required fields")
+                )}
                 className="grid gap-y-4"
               >
                 <FormTextField

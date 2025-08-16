@@ -140,7 +140,7 @@ export const IndividualClearanceForm = () => {
       </div>
 
       <Card className="shadow-lg">
-        <CardHeader className="space-y-2 p-8">
+        <CardHeader className="space-y-2 p-8 pb-2">
           <CardTitle className="text-4xl font-bold">
             Individual Clearance Form
           </CardTitle>
@@ -149,7 +149,7 @@ export const IndividualClearanceForm = () => {
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="p-8">
+        <CardContent className="p-8 pt-0">
           <Form {...form}>
             {step === 0 && (
               <form
@@ -261,7 +261,7 @@ export const IndividualClearanceForm = () => {
 
             {step === 2 && (
               <>
-                <CardHeader className="space-y-2 p-8">
+                <CardHeader className="space-y-2 p-0">
                   <CardTitle className="text-4xl font-bold">
                     Required Documents
                   </CardTitle>
@@ -269,7 +269,7 @@ export const IndividualClearanceForm = () => {
                     Please prepare the following documents:
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="p-8">
+                <CardContent className="p-8 px-0">
                   <div className="space-y-8">
                     <div>
                       <h3 className="mb-4 text-2xl font-semibold">
@@ -313,7 +313,9 @@ export const IndividualClearanceForm = () => {
                       <Button
                         type="submit"
                         size="lg"
-                        onClick={handleSubmit(onSubmit)}
+                        onClick={handleSubmit(onSubmit, () => {
+                          toast.error("Please fill out all required fields");
+                        })}
                         className={buttonClasses}
                       >
                         Submit

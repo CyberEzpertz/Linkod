@@ -268,7 +268,9 @@ export const IndividualClearanceForm = () => {
                 <Button
                   type="submit"
                   size="sm"
-                  onClick={handleSubmit(onSubmit)}
+                  onClick={handleSubmit(onSubmit, () => {
+                    toast.error("Please fill out all required fields");
+                  })}
                 >
                   Submit
                 </Button>
